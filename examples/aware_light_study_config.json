@@ -1,0 +1,918 @@
+{
+  "_id": null,
+  "study_info": {
+    "study_title": "Digital Days (Years and moments, WP2)",
+    "study_description": "Four 14-day bursts, six months apart. Three short check-ins a day and one evening report. On Android, the app also logs which apps are on screen and when the screen is on; it does not record what you type, read or say, your location or your messages.",
+    "researcher_first": "Vasileios",
+    "researcher_last": "Stavropoulos",
+    "researcher_contact": "vasileios.stavropoulos@rmit.edu.au"
+  },
+  "database": {
+    "database_host": "TO-BE-PROVIDED-BY-RMIT-ITS",
+    "database_port": 3306,
+    "database_name": "digital_days",
+    "database_username": "aware_client",
+    "database_password": "-",
+    "config_without_password": true,
+    "require_ssl": true,
+    "rootUsername": "-",
+    "rootPassword": "-"
+  },
+  "createdAt": "2026-10-29T19:35:49.015594+00:00",
+  "updatedAt": "2026-10-29T19:35:49.015594+00:00",
+  "questions": [
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel happy.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 1
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel relaxed.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 2
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel down.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 3
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel lonely.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 4
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel left out.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 5
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel close to other people.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 6
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel stressed.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 7
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel overwhelmed.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 8
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Right now, I feel on top of things.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 9
+    },
+    {
+      "esm_type": 7,
+      "esm_title": "Since the last check-in, about how many minutes were you online (any device)?",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "id": 10
+    },
+    {
+      "esm_type": 2,
+      "esm_title": "What did you mostly do online?",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_radios": [
+        "Social media",
+        "Video/streaming",
+        "Gaming",
+        "Messaging",
+        "AI chatbot",
+        "Study/work",
+        "Not online"
+      ],
+      "id": 11
+    },
+    {
+      "esm_type": 2,
+      "esm_title": "Did you use an AI chatbot (e.g., ChatGPT, Claude, Gemini, Snapchat My AI) since the last check-in?",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 2700,
+      "esm_expiration_threshold": 0,
+      "esm_radios": [
+        "Yes",
+        "No"
+      ],
+      "id": 12
+    },
+    {
+      "esm_type": 7,
+      "esm_title": "How many hours did you sleep last night?",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "id": 13
+    },
+    {
+      "esm_type": 6,
+      "esm_title": "How well did you sleep last night?",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_scale_min": 0,
+      "esm_scale_max": 10,
+      "esm_scale_start": 5,
+      "esm_scale_step": 1,
+      "esm_scale_min_label": "Very poor",
+      "esm_scale_max_label": "Excellent",
+      "id": 14
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Overall today, I felt happy.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 15
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Overall today, I felt relaxed.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 16
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Overall today, I felt down.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 17
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, my life was close to how I want it to be.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 18
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, I was satisfied with my life.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 19
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, I got the things that matter to me.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 20
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, I was satisfied with myself.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 21
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, I felt like a person of worth.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 22
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, I felt useless at times.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 23
+    },
+    {
+      "esm_type": 7,
+      "esm_title": "Today, about how many minutes did you spend talking with AI chatbots?",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "id": 24
+    },
+    {
+      "esm_type": 3,
+      "esm_title": "What did you use AI for today? (tick all that apply)",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_checkboxes": [
+        "Study/work",
+        "Information/search",
+        "Creative",
+        "Advice",
+        "Emotional support or company",
+        "Entertainment",
+        "Did not use AI"
+      ],
+      "id": 25
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, talking with AI felt easier than talking with people.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 26
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, when online, I felt I was really 'there'.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 27
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, the online world felt real to me.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 28
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, when online, I lost track of my surroundings.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 29
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, when online, I was totally absorbed in what I was doing.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 30
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, time flew when I was online.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 31
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, what I did online was a positive challenge.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 32
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, my online self (profile, avatar or persona) felt like part of me.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 33
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, how I came across online affected how I felt offline.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 34
+    },
+    {
+      "esm_type": 4,
+      "esm_title": "Today, I would rather have been like my online self.",
+      "esm_submit": "Next",
+      "esm_notification_timeout": 7200,
+      "esm_expiration_threshold": 0,
+      "esm_likert_max": 7,
+      "esm_likert_max_label": "Very much",
+      "esm_likert_min_label": "Not at all",
+      "id": 35
+    }
+  ],
+  "schedules": [
+    {
+      "title": "Check-in",
+      "type": "random",
+      "esm_keep": false,
+      "questions": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "firsthour": 9,
+      "lasthour": 21,
+      "randomCount": 3,
+      "randomInterval": 120
+    },
+    {
+      "title": "Evening report",
+      "type": "interval",
+      "esm_keep": true,
+      "questions": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "hours": [
+        20
+      ],
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
+      ]
+    }
+  ],
+  "sensors": [
+    {
+      "setting": "webservice_wifi_only",
+      "value": true
+    },
+    {
+      "setting": "webservice_charging",
+      "value": false
+    },
+    {
+      "setting": "frequency_webservice",
+      "value": 30
+    },
+    {
+      "setting": "frequency_clean_old_data",
+      "value": 1
+    },
+    {
+      "setting": "webservice_silent",
+      "value": true
+    },
+    {
+      "setting": "fallback_network",
+      "value": 6
+    },
+    {
+      "setting": "remind_to_charge",
+      "value": true
+    },
+    {
+      "setting": "foreground_priority",
+      "value": true
+    },
+    {
+      "setting": "debug_flag",
+      "value": false
+    },
+    {
+      "setting": "frequency_sync_config",
+      "value": 60
+    },
+    {
+      "setting": "enable_config_update",
+      "value": true
+    },
+    {
+      "setting": "status_applications",
+      "value": true
+    },
+    {
+      "setting": "status_notifications",
+      "value": true
+    },
+    {
+      "setting": "status_crashes",
+      "value": false
+    },
+    {
+      "setting": "frequency_applications",
+      "value": 30
+    },
+    {
+      "setting": "status_keyboard",
+      "value": false
+    },
+    {
+      "setting": "mask_notification",
+      "value": true
+    },
+    {
+      "setting": "mask_keyboard",
+      "value": true
+    },
+    {
+      "setting": "mask_touch_text",
+      "value": true
+    },
+    {
+      "setting": "status_screentext",
+      "value": false
+    },
+    {
+      "setting": "package_specification",
+      "value": false
+    },
+    {
+      "setting": "package_names",
+      "value": false
+    },
+    {
+      "setting": "status_battery",
+      "value": true
+    },
+    {
+      "setting": "communication",
+      "value": false
+    },
+    {
+      "setting": "status_communication_events",
+      "value": false
+    },
+    {
+      "setting": "status_calls",
+      "value": false
+    },
+    {
+      "setting": "status_messages",
+      "value": false
+    },
+    {
+      "setting": "status_installations",
+      "value": false
+    },
+    {
+      "setting": "status_screen",
+      "value": true
+    },
+    {
+      "setting": "status_touch",
+      "value": false
+    },
+    {
+      "setting": "status_telephony",
+      "value": false
+    },
+    {
+      "setting": "status_timezone",
+      "value": true
+    },
+    {
+      "setting": "frequency_timezone",
+      "value": 3600
+    },
+    {
+      "setting": "status_accelerometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_accelerometer",
+      "value": false
+    },
+    {
+      "setting": "threshold_accelerometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_accelerometer_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_barometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_barometer",
+      "value": false
+    },
+    {
+      "setting": "threshold_barometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_barometer_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_bluetooth",
+      "value": false
+    },
+    {
+      "setting": "frequency_bluetooth",
+      "value": false
+    },
+    {
+      "setting": "status_gravity",
+      "value": false
+    },
+    {
+      "setting": "frequency_gravity",
+      "value": false
+    },
+    {
+      "setting": "threshold_gravity",
+      "value": false
+    },
+    {
+      "setting": "frequency_gravity_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_gyroscope",
+      "value": false
+    },
+    {
+      "setting": "frequency_gyroscope",
+      "value": false
+    },
+    {
+      "setting": "threshold_gyroscope",
+      "value": false
+    },
+    {
+      "setting": "frequency_gyroscope_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_light",
+      "value": false
+    },
+    {
+      "setting": "frequency_light",
+      "value": false
+    },
+    {
+      "setting": "threshold_light",
+      "value": false
+    },
+    {
+      "setting": "frequency_light_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_linear_accelerometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_linear_accelerometer",
+      "value": false
+    },
+    {
+      "setting": "threshold_linear_accelerometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_linear_accelerometer_enforce",
+      "value": false
+    },
+    {
+      "setting": "location",
+      "value": false
+    },
+    {
+      "setting": "status_location_gps",
+      "value": false
+    },
+    {
+      "setting": "status_location_network",
+      "value": false
+    },
+    {
+      "setting": "frequency_gps",
+      "value": false
+    },
+    {
+      "setting": "frequency_network",
+      "value": false
+    },
+    {
+      "setting": "min_location_gps_accuracy",
+      "value": false
+    },
+    {
+      "setting": "min_location_network_accuracy",
+      "value": false
+    },
+    {
+      "setting": "location_expiration_time",
+      "value": false
+    },
+    {
+      "setting": "status_location_passive",
+      "value": false
+    },
+    {
+      "setting": "location_save_all",
+      "value": false
+    },
+    {
+      "setting": "status_magnetometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_magnetometer",
+      "value": false
+    },
+    {
+      "setting": "threshold_magnetometer",
+      "value": false
+    },
+    {
+      "setting": "frequency_magnetometer_enforce",
+      "value": false
+    },
+    {
+      "setting": "network",
+      "value": false
+    },
+    {
+      "setting": "status_network_events",
+      "value": false
+    },
+    {
+      "setting": "status_network_traffic",
+      "value": false
+    },
+    {
+      "setting": "status_processor",
+      "value": false
+    },
+    {
+      "setting": "status_proximity",
+      "value": false
+    },
+    {
+      "setting": "frequency_proximity",
+      "value": false
+    },
+    {
+      "setting": "threshold_proximity",
+      "value": false
+    },
+    {
+      "setting": "frequency_proximity_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_rotation",
+      "value": false
+    },
+    {
+      "setting": "frequency_rotation",
+      "value": false
+    },
+    {
+      "setting": "threshold_rotation",
+      "value": false
+    },
+    {
+      "setting": "frequency_rotation_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_temperature",
+      "value": false
+    },
+    {
+      "setting": "frequency_temperature",
+      "value": false
+    },
+    {
+      "setting": "threshold_temperature",
+      "value": false
+    },
+    {
+      "setting": "frequency_temperature_enforce",
+      "value": false
+    },
+    {
+      "setting": "status_wifi",
+      "value": false
+    },
+    {
+      "setting": "frequency_wifi",
+      "value": false
+    },
+    {
+      "setting": "status_screenshot",
+      "value": false
+    },
+    {
+      "setting": "capture_time_interval",
+      "value": false
+    },
+    {
+      "setting": "compress_rate",
+      "value": false
+    },
+    {
+      "setting": "status_screenshot_local_storage",
+      "value": false
+    },
+    {
+      "setting": "screenshot_package_names",
+      "value": false
+    },
+    {
+      "setting": "screenshot_package_specification",
+      "value": false
+    },
+    {
+      "setting": "status_notes",
+      "value": false
+    },
+    {
+      "setting": "status_plugin_ambient_noise",
+      "value": false
+    },
+    {
+      "setting": "frequency_plugin_ambient_noise",
+      "value": false
+    },
+    {
+      "setting": "plugin_ambient_noise_sample_size",
+      "value": false
+    },
+    {
+      "setting": "plugin_ambient_noise_silence_threshold",
+      "value": false
+    },
+    {
+      "setting": "status_plugin_openweather",
+      "value": false
+    },
+    {
+      "setting": "plugin_openweather_frequency",
+      "value": false
+    },
+    {
+      "setting": "plugin_openweather_api_key",
+      "value": false
+    },
+    {
+      "setting": "plugin_openweather_measurement_units",
+      "value": false
+    },
+    {
+      "setting": "status_esm",
+      "value": true
+    },
+    {
+      "setting": "status_webservice",
+      "value": true
+    }
+  ]
+}

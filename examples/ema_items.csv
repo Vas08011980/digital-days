@@ -1,0 +1,36 @@
+form,block_order,instrument,item_id,text,status,reverse,parent,licence,resp_type,resp_min,resp_max,min_label,max_label,options,schedule
+checkin,0,MOOD_M,MOOD_M1,"Right now, I feel happy.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,0,MOOD_M,MOOD_M2,"Right now, I feel relaxed.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,0,MOOD_M,MOOD_M3,"Right now, I feel down.",new,True,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,1,LONE_M,LONE_M1,"Right now, I feel lonely.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,1,LONE_M,LONE_M2,"Right now, I feel left out.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,1,LONE_M,LONE_M3,"Right now, I feel close to other people.",new,True,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,2,STRESS_M,STRESS_M1,"Right now, I feel stressed.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,2,STRESS_M,STRESS_M2,"Right now, I feel overwhelmed.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,2,STRESS_M,STRESS_M3,"Right now, I feel on top of things.",new,True,,own,likert,1.0,7.0,Not at all,Very much,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,3,USE_M,USE_M1,"Since the last check-in, about how many minutes were you online (any device)?",new,False,,own,numeric,,,,,,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,3,USE_M,USE_M2,What did you mostly do online?,new,False,,own,radio,,,,,Social media|Video/streaming|Gaming|Messaging|AI chatbot|Study/work|Not online,"3 random/day 09:00-21:00, >= 120 min apart"
+checkin,3,USE_M,USE_M3,"Did you use an AI chatbot (e.g., ChatGPT, Claude, Gemini, Snapchat My AI) since the last check-in?",new,False,,own,radio,,,,,Yes|No,"3 random/day 09:00-21:00, >= 120 min apart"
+evening,0,SLEEP_D,SLEEP_D1,How many hours did you sleep last night?,new,False,,own,numeric,,,,,,daily 20:30
+evening,0,SLEEP_D,SLEEP_D2,How well did you sleep last night?,new,False,,own,scale,0.0,10.0,Very poor,Excellent,,daily 20:30
+evening,1,MOOD_D,MOOD_D1,"Overall today, I felt happy.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,1,MOOD_D,MOOD_D2,"Overall today, I felt relaxed.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,1,MOOD_D,MOOD_D3,"Overall today, I felt down.",new,True,,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,2,LS_D,LS_D1,"Today, my life was close to how I want it to be.",adapted,False,SWLS_1,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,2,LS_D,LS_D2,"Today, I was satisfied with my life.",adapted,False,SWLS_3,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,2,LS_D,LS_D3,"Today, I got the things that matter to me.",adapted,False,SWLS_4,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,3,SE_D,SE_D1,"Today, I was satisfied with myself.",adapted,False,RSES_1,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,3,SE_D,SE_D2,"Today, I felt like a person of worth.",adapted,False,RSES_7,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,3,SE_D,SE_D3,"Today, I felt useless at times.",adapted,True,RSES_6,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,4,AI_D,AI_D1,"Today, about how many minutes did you spend talking with AI chatbots?",new,False,,own,numeric,,,,,,daily 20:30
+evening,4,AI_D,AI_D2,What did you use AI for today? (tick all that apply),new,False,,own,checkbox,,,,,Study/work|Information/search|Creative|Advice|Emotional support or company|Entertainment|Did not use AI,daily 20:30
+evening,4,AI_D,AI_D3,"Today, talking with AI felt easier than talking with people.",new,False,,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,5,PRES_D,PRES_D1,"Today, when online, I felt I was really 'there'.",adapted,False,SUS_1,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,5,PRES_D,PRES_D2,"Today, the online world felt real to me.",adapted,False,SUS_2,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,5,PRES_D,PRES_D3,"Today, when online, I lost track of my surroundings.",adapted,False,SUS_6,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,6,FLOW_D,FLOW_D1,"Today, when online, I was totally absorbed in what I was doing.",adapted,False,OFQ_1,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,6,FLOW_D,FLOW_D2,"Today, time flew when I was online.",adapted,False,OFQ_2,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,6,FLOW_D,FLOW_D3,"Today, what I did online was a positive challenge.",adapted,False,OFQ_4,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,7,SREP_D,SREP_D1,"Today, my online self (profile, avatar or persona) felt like part of me.",adapted,False,SPQ_9,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,7,SREP_D,SREP_D2,"Today, how I came across online affected how I felt offline.",adapted,False,PROT_1,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
+evening,7,SREP_D,SREP_D3,"Today, I would rather have been like my online self.",adapted,False,UAB_11,own,likert,1.0,7.0,Not at all,Very much,,daily 20:30
