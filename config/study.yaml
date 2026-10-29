@@ -1,0 +1,71 @@
+# Digital Days — Years and moments, WP2/WP3 fast clock
+# Single source of truth for design parameters. Every script reads this file.
+
+study:
+  name: "Digital Days"
+  project: "Years and moments: Youth wellbeing across changing digital worlds"
+  work_packages: ["WP2", "WP3"]
+  timezone: "Australia/Melbourne"
+  day_boundary_hour: 4        # a "study day" runs 04:00-03:59, so 1 a.m. use belongs to the evening before
+
+sample:
+  enrol_target: 400
+  retain_target: 300
+  age_range: [18, 25]
+  quotas: [gender, residence, ses]   # quota variables collected at screening
+  recruitment_waves: 4               # staggered, months 13-18
+
+bursts:
+  n: 4
+  length_days: 14
+  spacing_months: 6
+  follow_up_months_after_last: 6     # final full-scale survey (~month 43)
+
+ema:
+  # Delivery platform is deliberately abstract: the item bank compiles to
+  # AWARE-Light ESM JSON (Android) and to a platform-neutral CSV for a
+  # cross-platform EMA app. Use ONE delivery app for all participants if
+  # possible, so OS is not confounded with delivery mode.
+  checkins:
+    per_day: 3
+    window: ["09:00", "21:00"]
+    min_gap_minutes: 120
+    expiry_minutes: 45
+    target_duration_minutes: 1
+  evening:
+    per_day: 1
+    time: "20:30"
+    expiry_minutes: 120
+    target_duration_minutes: 3
+  expected_compliance: 0.60          # 2025 CatholicCare study
+
+passive:
+  android:
+    tool: "AWARE-Light"
+    version_pinned: "4.2.1"          # stable at time of writing; keep fixed for the whole study
+    streams: [applications_foreground, screen, notifications_meta, battery, timezone, esms]
+  ios:
+    tool: "weekly Screen Time upload"
+    cadence_days: 7
+    fields: [daily_total_minutes, pickups, notifications, top_apps]
+  wearable:
+    device: "Fitbit"
+    api: "Google Health API (replaces Fitbit Web API, Sept 2026) - verify intraday access before claiming minute-level data"
+    devices_total: 120
+    devices_active: 100
+    devices_spare: 20
+    shipping_buffer_days: 5          # post / charge / reset between participants
+    min_wear_hours_valid_day: 10
+
+donation:
+  route: "Australian Internet Observatory (AIO) data donation (DDPs)"
+  timing: "end of each burst"
+  sources: [tiktok, youtube, chatgpt, claude, instagram]
+  keep_text_from: "participant only"  # AI replies kept only as metadata (length, timestamp)
+
+power:
+  reference: "DSEM Monte Carlo simulation (separate repository, ref 47)"
+  claims:
+    daily_effect_min: 0.05
+    burst_to_burst_min: 0.20
+    power: 0.80

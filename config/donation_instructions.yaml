@@ -1,0 +1,69 @@
+# Participant-facing instructions for requesting each data download package (DDP),
+# to be loaded into the AIO data-donation uploader once ethics approves the sources.
+# Checked 30 Oct 2026 against the sources listed; platforms change menus often,
+# so re-check every link in the pilot burst and before each burst.
+#
+# Timing: ask participants to REQUEST exports on burst day 12 so files arrive by day 14
+# (TikTok can take days; ChatGPT/Claude links expire after 24 h).
+
+platforms:
+
+  instagram:
+    request_url: "https://accountscenter.instagram.com/info_and_permissions/"
+    steps:
+      - "Go to https://accountscenter.instagram.com/info_and_permissions/"
+      - "Click 'Export your information', then 'Create export'"
+      - "Select the account you want to export (if you have more than one)"
+      - "Choose 'Export to device'"
+      - "Set: Customise information -> 'All available information'; Date range -> 'All time'; Format -> 'JSON'; Media quality -> 'Lower quality'"
+      - "Click 'Start export'"
+    format: JSON (zip)
+    source: "AIO instructions supplied by the project team (Oct 2026)"
+
+  tiktok:
+    request_url: "https://support.tiktok.com/en/account-and-privacy/personalized-ads-and-data/requesting-your-data"
+    steps:
+      - "In the TikTok app go to Profile -> Menu (top right) -> Settings and privacy -> Account -> 'Download your data'"
+      - "Choose the data to include ('All data' is fine) and select the file format 'JSON'"
+      - "Tap 'Request data'. Preparing the file can take a few days; TikTok notifies you when it is ready"
+      - "Download it from the same screen (the file is available for about four days)"
+    format: JSON (user_data_tiktok.json, inside a zip)
+    source: "TechCrunch, 17 Jan 2025; TikTok support page above (verify)"
+
+  youtube:
+    request_url: "https://takeout.google.com/"
+    steps:
+      - "Go to https://takeout.google.com/ and sign in with the Google account you use for YouTube"
+      - "Click 'Deselect all', then tick 'YouTube and YouTube Music'"
+      - "Click 'All YouTube data included', untick everything except 'history', click OK"
+      - "Click 'Multiple formats' and set History to 'JSON'"
+      - "Click 'Next step', keep 'Send download link via email', file type '.zip', then 'Create export'"
+      - "Download from the email link (valid about 7 days)"
+    format: JSON (Takeout/YouTube and YouTube Music/history/watch-history.json, search-history.json)
+    note: "If the channel belongs to a Brand Account, switch to it before exporting."
+    source: "takeoutday.org guide (third party; verify against support.google.com)"
+
+  chatgpt:
+    request_url: "https://chatgpt.com/#settings/DataControls"
+    steps:
+      - "Sign in at https://chatgpt.com on a computer or phone browser"
+      - "Open Settings -> 'Data controls' -> 'Export data' -> 'Confirm export'"
+      - "You will receive an email; click 'Download data export' within 24 hours to get a .zip file"
+    format: "zip with chat.html and conversations.json (the parser uses conversations.json)"
+    source: "OpenAI Help Center article 7260999 (page dated 2023; verify current menu)"
+
+  claude:
+    request_url: "https://claude.ai/settings/data-privacy-controls"
+    steps:
+      - "Sign in at https://claude.ai (web or Claude Desktop; not available in the mobile apps)"
+      - "Go to Settings -> Privacy and click 'Export data'"
+      - "You will receive an email with a download link; open it within 24 hours while signed in"
+    format: "zip with conversations.json"
+    note: "Team/Enterprise accounts can export only if the organisation owner allows it."
+    source: "Anthropic support article 9450526"
+
+consent_screen:
+  # shown in the AIO uploader before upload
+  - "You can look through your file and remove anything before you share it."
+  - "From AI chats we keep only what YOU wrote, plus the time of each message; the AI's replies are reduced to length and time."
+  - "We do not read your files in real time. You can withdraw your donation at any time before analysis."

@@ -1,0 +1,282 @@
+# Digital Days item bank
+#
+# status:
+#   published  - item text as published (keep wording; check licence before public release)
+#   adapted    - momentary/daily rewording of a published item; needs WP3 equivalence testing
+#   new        - drafted for this study; needs cognitive pretesting in the pilot burst
+# licence:
+#   open       - free for research use with citation
+#   check      - free to use but reproduction terms not confirmed; strip text before public release
+#   own        - Stavropoulos-group instrument / study-specific item
+#
+# Full scales are given at each burst start and at the 6-month follow-up
+# (Qualtrics/REDCap). Momentary forms are compiled into the EMA app.
+
+response_sets:
+  likert7_agree: {type: likert, min: 1, max: 7, min_label: "Not at all", max_label: "Very much"}
+  likert5_freq:  {type: likert, min: 1, max: 5, min_label: "Very rarely", max_label: "Very often"}
+  likert5_never: {type: likert, min: 1, max: 5, min_label: "Never", max_label: "Very often"}
+  dass4:         {type: likert, min: 0, max: 3, min_label: "Did not apply to me at all", max_label: "Applied to me very much"}
+  swls7:         {type: likert, min: 1, max: 7, min_label: "Strongly disagree", max_label: "Strongly agree"}
+  rses4:         {type: likert, min: 1, max: 4, min_label: "Strongly disagree", max_label: "Strongly agree"}
+  slider10:      {type: scale, min: 0, max: 10, min_label: "Very poor", max_label: "Excellent"}
+  minutes:       {type: numeric}
+  hours:         {type: numeric}
+  yesno:         {type: radio, options: ["Yes", "No"]}
+
+constructs:
+  # construct -> measured by (full scale, momentary form) and the slow-clock anchor it links to
+  life_satisfaction: {full: SWLS, ema: LS_D, slow_clock_anchor: "MCS/GUI/HILDA life satisfaction; SWLS where available"}
+  self_esteem:       {full: RSES, ema: SE_D, slow_clock_anchor: "Rosenberg (MCS, GUI, AStRA)"}
+  distress:          {full: DASS21, ema: [MOOD_M, STRESS_M], slow_clock_anchor: "DASS (AStRA); K6/K10 (LSAC, HILDA)"}
+  loneliness:        {full: null, ema: LONE_M, slow_clock_anchor: "single-item loneliness where available"}
+  problematic_sm:    {full: BSMAS, ema: null, slow_clock_anchor: "BSMAS / problem SM items (TESS, ABCD, MCS, HILDA 2024)"}
+  problematic_gaming: {full: IGDS9SF, ema: null, slow_clock_anchor: "IGD items (TESS, ABCD, AStRA)"}
+  problematic_ai:    {full: TBD, ema: null, slow_clock_anchor: null, note: "No validated instrument chosen yet - decide before ethics"}
+  presence:          {full: SUSPQ, ema: PRES_D}
+  flow:              {full: OFQ, ema: FLOW_D}
+  self_representation: {full: [SPQ, UAB, PROTEUS], ema: SREP_D}
+
+instruments:
+
+  # ---------------- FULL SCALES (burst start + follow-up) ----------------
+  SWLS:
+    name: "Satisfaction With Life Scale"
+    source: "Diener, Emmons, Larsen & Griffin (1985), J Pers Assess 49:71"
+    licence: open
+    response_set: swls7
+    items:
+      - {id: SWLS_1, text: "In most ways my life is close to my ideal.", status: published}
+      - {id: SWLS_2, text: "The conditions of my life are excellent.", status: published}
+      - {id: SWLS_3, text: "I am satisfied with my life.", status: published}
+      - {id: SWLS_4, text: "So far I have gotten the important things I want in life.", status: published}
+      - {id: SWLS_5, text: "If I could live my life over, I would change almost nothing.", status: published}
+
+  RSES:
+    name: "Rosenberg Self-Esteem Scale"
+    source: "Rosenberg (1965)"
+    licence: open
+    response_set: rses4
+    items:
+      - {id: RSES_1, text: "On the whole, I am satisfied with myself.", status: published}
+      - {id: RSES_2, text: "At times I think I am no good at all.", status: published, reverse: true}
+      - {id: RSES_3, text: "I feel that I have a number of good qualities.", status: published}
+      - {id: RSES_4, text: "I am able to do things as well as most other people.", status: published}
+      - {id: RSES_5, text: "I feel I do not have much to be proud of.", status: published, reverse: true}
+      - {id: RSES_6, text: "I certainly feel useless at times.", status: published, reverse: true}
+      - {id: RSES_7, text: "I feel that I'm a person of worth, at least on an equal plane with others.", status: published}
+      - {id: RSES_8, text: "I wish I could have more respect for myself.", status: published, reverse: true}
+      - {id: RSES_9, text: "All in all, I am inclined to feel that I am a failure.", status: published, reverse: true}
+      - {id: RSES_10, text: "I take a positive attitude toward myself.", status: published}
+
+  DASS21:
+    name: "Depression Anxiety Stress Scales - 21"
+    source: "Lovibond & Lovibond (1995); public domain, dass.psy.unsw.edu.au"
+    licence: open
+    response_set: dass4
+    instructions: "Please indicate how much each statement applied to you over the past week."
+    subscales: {stress: [1,6,8,11,12,14,18], anxiety: [2,4,7,9,15,19,20], depression: [3,5,10,13,16,17,21]}
+    items:
+      - {id: DASS_1, text: "I found it hard to wind down", status: published}
+      - {id: DASS_2, text: "I was aware of dryness of my mouth", status: published}
+      - {id: DASS_3, text: "I couldn't seem to experience any positive feeling at all", status: published}
+      - {id: DASS_4, text: "I experienced breathing difficulty (e.g., excessively rapid breathing, breathlessness in the absence of physical exertion)", status: published}
+      - {id: DASS_5, text: "I found it difficult to work up the initiative to do things", status: published}
+      - {id: DASS_6, text: "I tended to over-react to situations", status: published}
+      - {id: DASS_7, text: "I experienced trembling (e.g., in the hands)", status: published}
+      - {id: DASS_8, text: "I felt that I was using a lot of nervous energy", status: published}
+      - {id: DASS_9, text: "I was worried about situations in which I might panic and make a fool of myself", status: published}
+      - {id: DASS_10, text: "I felt that I had nothing to look forward to", status: published}
+      - {id: DASS_11, text: "I found myself getting agitated", status: published}
+      - {id: DASS_12, text: "I found it difficult to relax", status: published}
+      - {id: DASS_13, text: "I felt down-hearted and blue", status: published}
+      - {id: DASS_14, text: "I was intolerant of anything that kept me from getting on with what I was doing", status: published}
+      - {id: DASS_15, text: "I felt I was close to panic", status: published}
+      - {id: DASS_16, text: "I was unable to become enthusiastic about anything", status: published}
+      - {id: DASS_17, text: "I felt I wasn't worth much as a person", status: published}
+      - {id: DASS_18, text: "I felt that I was rather touchy", status: published}
+      - {id: DASS_19, text: "I was aware of the action of my heart in the absence of physical exertion", status: published}
+      - {id: DASS_20, text: "I felt scared without any good reason", status: published}
+      - {id: DASS_21, text: "I felt that life was meaningless", status: published}
+
+  BSMAS:
+    name: "Bergen Social Media Addiction Scale"
+    source: "Andreassen et al. (2016), Psychol Addict Behav 30:252"
+    licence: check
+    response_set: likert5_freq
+    instructions: "How often during the last year have you..."
+    items:
+      - {id: BSMAS_1, text: "...spent a lot of time thinking about social media or planned use of social media?", status: published}
+      - {id: BSMAS_2, text: "...felt an urge to use social media more and more?", status: published}
+      - {id: BSMAS_3, text: "...used social media in order to forget about personal problems?", status: published}
+      - {id: BSMAS_4, text: "...tried to cut down on the use of social media without success?", status: published}
+      - {id: BSMAS_5, text: "...become restless or troubled if you have been prohibited from using social media?", status: published}
+      - {id: BSMAS_6, text: "...used social media so much that it has had a negative impact on your job/studies?", status: published}
+
+  IGDS9SF:
+    name: "Internet Gaming Disorder Scale - Short Form"
+    source: "Pontes & Griffiths (2015), Comput Hum Behav 45:137"
+    licence: check
+    response_set: likert5_never
+    note: "Item text in the 2021 Ahead of the Game battery; administer to gamers only (skip logic)."
+    items: [{id: IGD_1}, {id: IGD_2}, {id: IGD_3}, {id: IGD_4}, {id: IGD_5}, {id: IGD_6}, {id: IGD_7}, {id: IGD_8}, {id: IGD_9}]
+
+  SUSPQ:
+    name: "Slater-Usoh-Steed Presence Questionnaire (adapted to online environments)"
+    source: "Slater, Usoh & Steed (1994); as used in the Ahead of the Game battery (2021)"
+    licence: check
+    response_set: likert7_agree
+    note: "Battery wording refers to 'the game'; FT27 version replaces with 'the online environment you used most'."
+    items:
+      - {id: SUS_1, text: "Please rate your sense of being in the online environment.", status: adapted}
+      - {id: SUS_2, text: "To what extent were there times when the online environment was the reality for you?", status: adapted}
+      - {id: SUS_3, text: "When you think back, do you think of the online environment more as images you saw or more as somewhere you visited?", status: adapted}
+      - {id: SUS_4, text: "Which was strongest on the whole: your sense of being in the online environment, or of being elsewhere?", status: adapted}
+      - {id: SUS_5, text: "How similar is your memory of the online environment to your memory of other places you have been today?", status: adapted}
+      - {id: SUS_6, text: "Did you often think to yourself that you were actually in the online environment?", status: adapted}
+
+  OFQ:
+    name: "Online Flow Questionnaire"
+    source: "Chen, Wigand & Nilan (1999); IRT examination by Stavropoulos group"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: OFQ_1, text: "When navigating online, have you been totally involved in what you were doing, with the world seeming cut off from you?", status: adapted}
+      - {id: OFQ_2, text: "When navigating online, have you experienced the feeling of 'time going too fast'?", status: published}
+      - {id: OFQ_3, text: "Have you experienced the feeling of enjoyment when navigating online?", status: published}
+      - {id: OFQ_4, text: "Have you experienced the feeling of 'positive challenge' when navigating online?", status: published}
+      - {id: OFQ_5, text: "Have you experienced the feeling of 'being controlled by something' when navigating online?", status: published}
+
+  SPQ:
+    name: "Self-Presence Questionnaire"
+    source: "Ratan & Hasler (2009); as used in the Ahead of the Game battery (2021)"
+    licence: check
+    response_set: likert7_agree
+    note: "13 items (body, emotional, identity self-presence). Item text held in the battery; extend 'avatar' to 'online persona/profile'."
+    items: [{id: SPQ_1}, {id: SPQ_2}, {id: SPQ_3}, {id: SPQ_4}, {id: SPQ_5}, {id: SPQ_6}, {id: SPQ_7}, {id: SPQ_8}, {id: SPQ_9}, {id: SPQ_10}, {id: SPQ_11}, {id: SPQ_12}, {id: SPQ_13}]
+
+  UAB:
+    name: "User-Avatar Bond Questionnaire"
+    source: "Blinka (2008); Stavropoulos et al. (2020)"
+    licence: own
+    response_set: likert7_agree
+    items: [{id: UAB_1}, {id: UAB_2}, {id: UAB_3}, {id: UAB_4}, {id: UAB_5}, {id: UAB_6}, {id: UAB_7}, {id: UAB_8}, {id: UAB_9}, {id: UAB_10}, {id: UAB_11}, {id: UAB_12}]
+
+  PROTEUS:
+    name: "Proteus Effect items"
+    source: "Stavropoulos group (Ahead of the Game battery, 2021)"
+    licence: own
+    response_set: likert7_agree
+    items: [{id: PROT_1}, {id: PROT_2}, {id: PROT_3}, {id: PROT_4}, {id: PROT_5}, {id: PROT_6}]
+
+  # ---------------- MOMENTARY FORMS (EMA) ----------------
+  # Check-in (x3/day, ~1 min). Prefix _M = momentary. All 1-7 unless noted.
+  MOOD_M:
+    name: "Momentary mood"
+    licence: own
+    response_set: likert7_agree
+    stem: "Right now, I feel..."
+    items:
+      - {id: MOOD_M1, text: "Right now, I feel happy.", status: new}
+      - {id: MOOD_M2, text: "Right now, I feel relaxed.", status: new}
+      - {id: MOOD_M3, text: "Right now, I feel down.", status: new, reverse: true}
+  LONE_M:
+    name: "Momentary loneliness"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: LONE_M1, text: "Right now, I feel lonely.", status: new}
+      - {id: LONE_M2, text: "Right now, I feel left out.", status: new}
+      - {id: LONE_M3, text: "Right now, I feel close to other people.", status: new, reverse: true}
+  STRESS_M:
+    name: "Momentary stress"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: STRESS_M1, text: "Right now, I feel stressed.", status: new}
+      - {id: STRESS_M2, text: "Right now, I feel overwhelmed.", status: new}
+      - {id: STRESS_M3, text: "Right now, I feel on top of things.", status: new, reverse: true}
+  USE_M:
+    name: "Online use since last prompt"
+    licence: own
+    items:
+      - {id: USE_M1, text: "Since the last check-in, about how many minutes were you online (any device)?", status: new, response_set: minutes}
+      - {id: USE_M2, text: "What did you mostly do online?", status: new, response: {type: radio, options: ["Social media", "Video/streaming", "Gaming", "Messaging", "AI chatbot", "Study/work", "Not online"]}}
+      - {id: USE_M3, text: "Did you use an AI chatbot (e.g., ChatGPT, Claude, Gemini, Snapchat My AI) since the last check-in?", status: new, response_set: yesno}
+
+  # Evening report (x1/day, ~3 min). Prefix _D = daily.
+  SLEEP_D:
+    name: "Last night's sleep"
+    licence: own
+    items:
+      - {id: SLEEP_D1, text: "How many hours did you sleep last night?", status: new, response_set: hours}
+      - {id: SLEEP_D2, text: "How well did you sleep last night?", status: new, response_set: slider10}
+  MOOD_D:
+    name: "Daily mood"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: MOOD_D1, text: "Overall today, I felt happy.", status: new}
+      - {id: MOOD_D2, text: "Overall today, I felt relaxed.", status: new}
+      - {id: MOOD_D3, text: "Overall today, I felt down.", status: new, reverse: true}
+  LS_D:
+    name: "Daily life satisfaction (adapted from SWLS)"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: LS_D1, text: "Today, my life was close to how I want it to be.", status: adapted, parent: SWLS_1}
+      - {id: LS_D2, text: "Today, I was satisfied with my life.", status: adapted, parent: SWLS_3}
+      - {id: LS_D3, text: "Today, I got the things that matter to me.", status: adapted, parent: SWLS_4}
+  SE_D:
+    name: "Daily self-esteem (adapted from RSES)"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: SE_D1, text: "Today, I was satisfied with myself.", status: adapted, parent: RSES_1}
+      - {id: SE_D2, text: "Today, I felt like a person of worth.", status: adapted, parent: RSES_7}
+      - {id: SE_D3, text: "Today, I felt useless at times.", status: adapted, parent: RSES_6, reverse: true}
+  AI_D:
+    name: "Daily AI use and purpose"
+    licence: own
+    items:
+      - {id: AI_D1, text: "Today, about how many minutes did you spend talking with AI chatbots?", status: new, response_set: minutes}
+      - {id: AI_D2, text: "What did you use AI for today? (tick all that apply)", status: new, response: {type: checkbox, options: ["Study/work", "Information/search", "Creative", "Advice", "Emotional support or company", "Entertainment", "Did not use AI"]}}
+      - {id: AI_D3, text: "Today, talking with AI felt easier than talking with people.", status: new, response_set: likert7_agree}
+  PRES_D:
+    name: "Daily online presence (adapted from SUS/IPQ)"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: PRES_D1, text: "Today, when online, I felt I was really 'there'.", status: adapted, parent: SUS_1}
+      - {id: PRES_D2, text: "Today, the online world felt real to me.", status: adapted, parent: SUS_2}
+      - {id: PRES_D3, text: "Today, when online, I lost track of my surroundings.", status: adapted, parent: SUS_6}
+  FLOW_D:
+    name: "Daily online flow (adapted from OFQ)"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: FLOW_D1, text: "Today, when online, I was totally absorbed in what I was doing.", status: adapted, parent: OFQ_1}
+      - {id: FLOW_D2, text: "Today, time flew when I was online.", status: adapted, parent: OFQ_2}
+      - {id: FLOW_D3, text: "Today, what I did online was a positive challenge.", status: adapted, parent: OFQ_4}
+  SREP_D:
+    name: "Daily self-representation (adapted from SPQ/UAB/Proteus)"
+    licence: own
+    response_set: likert7_agree
+    items:
+      - {id: SREP_D1, text: "Today, my online self (profile, avatar or persona) felt like part of me.", status: adapted, parent: SPQ_9}
+      - {id: SREP_D2, text: "Today, how I came across online affected how I felt offline.", status: adapted, parent: PROT_1}
+      - {id: SREP_D3, text: "Today, I would rather have been like my online self.", status: adapted, parent: UAB_11}
+
+forms:
+  baseline_once:   [DEMOGRAPHICS]
+  burst_start:     [SWLS, RSES, DASS21, BSMAS, IGDS9SF, SUSPQ, OFQ, SPQ, UAB, PROTEUS]
+  follow_up:       [SWLS, RSES, DASS21, BSMAS, IGDS9SF, SUSPQ, OFQ, SPQ, UAB, PROTEUS]
+  checkin:         [MOOD_M, LONE_M, STRESS_M, USE_M]
+  evening:         [SLEEP_D, MOOD_D, LS_D, SE_D, AI_D, PRES_D, FLOW_D, SREP_D]
+
+safety:
+  # Prompts are not monitored in real time (stated at consent). A rule-based
+  # trigger shows support information on the device and queues a coordinator
+  # check-in under Northern Health / CatholicCare protocols.
+  trigger: "MOOD_M3 >= 7 and STRESS_M2 >= 7, or DASS21 depression subscale in 'severe' range at burst start"
+  action: [show_support_screen, queue_checkin]

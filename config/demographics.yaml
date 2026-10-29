@@ -1,0 +1,28 @@
+# Baseline demographics (once, at enrolment) — adapted from the 2021 Ahead of the Game battery,
+# updated for 18-25 year olds, quota sampling and AI use. Quota fields are marked quota: true.
+items:
+  - {id: DEM_age, text: "What is your age in years?", type: numeric, eligibility: [18, 25]}
+  - {id: DEM_gender, text: "How do you describe your gender?", type: radio, quota: true,
+     options: ["Woman", "Man", "Non-binary", "I use a different term (please specify)", "Prefer not to say"]}
+  - {id: DEM_postcode, text: "What is the postcode where you usually live?", type: text, quota: true,
+     derive: ["residence (ABS Remoteness Area)", "ses (ABS SEIFA IRSAD decile)"]}
+  - {id: DEM_living, text: "Who do you live with?", type: checkbox,
+     options: ["Parent(s)/guardian(s)", "Sibling(s)", "Partner", "Friend(s)/housemates", "Alone", "My child(ren)", "Temporary accommodation", "Other"]}
+  - {id: DEM_study_work, text: "What are you currently doing? (tick all that apply)", type: checkbox,
+     options: ["University", "TAFE/vocational", "School", "Full-time work", "Part-time/casual work", "Looking for work", "Caring for others", "Other"]}
+  - {id: DEM_education, text: "What is the highest level of education you have completed?", type: radio,
+     options: ["Year 10 or below", "Year 11", "Year 12", "Certificate/diploma", "Bachelor degree", "Postgraduate"]}
+  - {id: DEM_parent_education, text: "What is the highest level of education either of your parents/guardians completed?", type: radio, quota: true,
+     options: ["Year 12 or below", "Certificate/diploma", "University degree", "Don't know"]}
+  - {id: DEM_financial, text: "How do you manage financially at the moment?", type: radio, quota: true,
+     options: ["Living comfortably", "Doing alright", "Just about getting by", "Finding it difficult", "Finding it very difficult"]}
+  - {id: DEM_cald, text: "What language(s) do you mainly speak at home?", type: text}
+  - {id: DEM_atsi, text: "Do you identify as Aboriginal and/or Torres Strait Islander?", type: radio,
+     options: ["No", "Aboriginal", "Torres Strait Islander", "Both", "Prefer not to say"],
+     note: "If Indigenous participants are recruited in numbers, analyses require Indigenous governance; do not treat as a demographic covariate only."}
+  - {id: DEM_relationship, text: "Are you in a romantic relationship?", type: radio, options: ["Yes", "No", "Prefer not to say"]}
+  - {id: DEM_phone_os, text: "What kind of smartphone do you mainly use?", type: radio, options: ["Android", "iPhone", "Other"],
+     routes: {Android: "AWARE-Light passive sensing", iPhone: "weekly Screen Time upload"}}
+  - {id: DEM_platforms, text: "Which of these do you use at least weekly?", type: checkbox,
+     options: ["TikTok", "YouTube", "Instagram", "Snapchat", "Facebook", "Reddit", "Discord", "X/Twitter", "ChatGPT", "Claude", "Gemini", "Character.AI/Replika or similar companion app", "Online games"]}
+  - {id: DEM_gamer, text: "Do you play video games at least weekly?", type: radio, options: ["Yes", "No"], skip_logic: "IGDS9SF shown only if Yes"}
