@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "Digital Days: fast-clock data pipeline for Years and moments (WP2-WP3)"
+title: "Digital Days: a measurement-burst data pipeline for EMA, passive sensing, wearables and data donation"
 version: 0.2.0
 date-released: 2026-10-30
 repository-code: "https://github.com/Vas08011980/digital-days"

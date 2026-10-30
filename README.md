@@ -1,6 +1,8 @@
-# Digital Days: fast-clock pipeline for *Years and moments*
+# Digital Days: a measurement-burst data pipeline
 
-This is the data pipeline for the measurement-burst study. About 400 young adults aged 18–25 take part in four 14-day bursts, six months apart, followed by a final follow-up survey. Five data streams are lined up on one timeline:
+[![tests](https://github.com/Vas08011980/digital-days/actions/workflows/tests.yml/badge.svg)](https://github.com/Vas08011980/digital-days/actions/workflows/tests.yml)
+
+Digital Days is the data pipeline for an intensive longitudinal (measurement-burst) study of young adults. About 400 young adults aged 18–25 take part in four 14-day bursts, six months apart, followed by a final follow-up survey. Five data streams are lined up on one timeline:
 
 | Stream | Tool | Captured | Fallback |
 |---|---|---|---|
@@ -12,7 +14,7 @@ This is the data pipeline for the measurement-burst study. About 400 young adult
 
 **See it:** the pipeline explorer (`docs/index.html`) shows a participant's study day, the burst calendar, every stream, every link with its status, and the simulation check. The donation portal (`docs/donate.html`) is the participant-facing route outside the AIO. Both are static pages: turn on GitHub Pages (Settings → Pages → branch `main`, folder `/docs`) or open them from a downloaded/Zenodo copy.
 
-![Fast-clock design](docs/fig_fast_clock_design.png)
+![Study design](docs/fig_fast_clock_design.png)
 
 ## Run it
 
@@ -20,7 +22,7 @@ This is the data pipeline for the measurement-burst study. About 400 young adult
 pip install -r requirements.txt
 PYTHONPATH=src python -m digital_days.run --simulate      # configs + simulated raw data + full pipeline + recovery check + site data
 PYTHONPATH=src python -m pytest -q tests                  # 12 end-to-end tests
-PYTHONPATH=src python -m digital_days.figure              # regenerate the C1 figure
+PYTHONPATH=src python -m digital_days.figure              # regenerate the study-design figure
 PYTHONPATH=src python -m digital_days.build_site          # rebuild docs/data/pipeline.json(.js) from config/
 ```
 
@@ -46,7 +48,7 @@ src/digital_days/
   simulate.py             native-format synthetic data with a planted effect
   run.py                  orchestration + Mplus .dat export + recovery check
   build_site.py           -> docs/data/pipeline.json(.js) for the two web pages
-  figure.py               C1 figure
+  figure.py               study-design figure
 docs/index.html           pipeline explorer (static)
 docs/donate.html          direct donation portal (static; processing happens in the participant's browser)
 ```
@@ -77,7 +79,7 @@ AWARE's own Fitbit plugin is not used: it calls the legacy API.
 
 `docs/donate.html` is a prototype of a direct route. The participant enters their study code, follows the export steps for one platform (taken from `config/donation_instructions.yaml`), and selects the downloaded `.zip`/`.json`. The page parses it **in the browser**, keeps only what the study needs (own AI-chat messages with timestamps; AI replies reduced to time and length; for TikTok, YouTube and Instagram only event times), shows a per-conversation or per-day table where anything can be removed, and saves `digital_days_donation_<source>_<code>.json` (schema `digital-days-donation/1`), which `ingest.donation_portal` reads. The secure upload destination (e.g., a REDCap file field keyed to the study code) is left to configure after ethics. The AIO remains the primary route in the grant.
 
-## Status: what is done and what still needs a person
+## Status
 
 | Item | Status |
 |---|---|
@@ -91,20 +93,18 @@ AWARE's own Fitbit plugin is not used: it calls the legacy API.
 | iOS | Weekly Screen Time schema; screenshot transcription is manual (double entry) |
 | Ethics | Not yet submitted for this design |
 
-## Design decisions worth defending
+## Design decisions
 
-- **Privacy-minimal sensing.** Keyboard, screen text, messages, calls, location and motion sensors are all off. Nothing needed for Aims 2–3 depends on them.
+- **Privacy-minimal sensing.** Keyboard, screen text, messages, calls, location and motion sensors are all off. None of the planned analyses depends on them.
 - **Study day runs 04:00–03:59.** Late-night use belongs to the evening before, so its effect is tested on the *next* day.
-- **AI-chat text.** The pipeline keeps only participants' own words, which feed the WP2.2 language indicators. The AI's replies are reduced to timestamp and length. Text stays in secure RMIT storage and is never exported (`*_SECURE.csv` is gitignored).
+- **AI-chat text.** The pipeline keeps only participants' own words, which feed the planned language-based indicators. The AI's replies are reduced to timestamp and length. Text stays in secure RMIT storage and is never exported (`*_SECURE.csv` is gitignored).
 - **Donation minimisation happens before data leave the device** (portal route), and the participant sees exactly what is shared.
 - **Missing versus zero.** For people who donated, a day with no donated activity counts as zero. For people who did not donate, it is missing.
 - **One EMA delivery app for everyone, if possible.** Otherwise the phone's operating system is confounded with how prompts are delivered, and the OS likely tracks socioeconomic background, one of the quota variables.
 
-## Suggested C1 wording
+## Validation
 
-> The protocol is specified as executable code (sensor configuration, prompt schedule, item bank, Google Health API and data-donation ingestion, alignment scripts), tested end to end on simulated data that recover a planted within-person effect, and openly versioned³⁹ (Fig. X).
-
-Do **not** write "pilot pipeline tested" until the 30-person pilot burst has run.
+The pipeline has been tested end to end on simulated data only (above). It has not yet been run on a pilot sample, so it should not be described as pilot-tested until the first pilot burst has run.
 
 ## Archiving on Zenodo
 
@@ -113,3 +113,7 @@ Do **not** write "pilot pipeline tested" until the 30-person pilot burst has run
 ## Data governance
 
 No participant data goes in this repository. `data/` and `build/` are gitignored except for documentation. The participant-code salt, database credentials, OAuth client secret and refresh tokens live outside the repository.
+
+## Authorship
+
+Design, development and testing: Vasileios Stavropoulos (RMIT University; ORCID [0000-0001-6964-4662](https://orcid.org/0000-0001-6964-4662)). I used Claude Code (Anthropic) as a coding assistant while writing the code; the study design, configuration choices and checking of all outputs are my own.
