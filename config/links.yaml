@@ -1,0 +1,37 @@
+# Every link the fast-clock pipeline depends on, in one place.
+# status: live (works now) | configure (we must set it up) | pending_ethics | placeholder
+# Shown on the pipeline explorer (docs/index.html). Checked 30 Oct 2026.
+
+researcher:
+  - {stream: EMA + phone use, label: "AWARE Configurator (create / update study, import JSON)", url: "https://configurator.awareframework.com", status: configure,
+     note: "Update an existing study -> upload build/aware/aware_light_study_config.json; enter DB host from RMIT ITS"}
+  - {stream: EMA + phone use, label: "AWARE Configurator source (import format reference)", url: "https://github.com/awareframework/AWARE-Configurator", status: live}
+  - {stream: EMA + phone use, label: "AWARE framework documentation", url: "https://awareframework.com", status: live}
+  - {stream: Wearable, label: "Google Health API (successor to the Fitbit Web API)", url: "https://developers.google.com/health", status: live}
+  - {stream: Wearable, label: "Google Health API REST reference (v4)", url: "https://developers.google.com/health/reference/rest", status: live}
+  - {stream: Wearable, label: "Google Health API data types and scopes", url: "https://developers.google.com/health/data-types", status: live}
+  - {stream: Wearable, label: "Fitbit Web API migration guide", url: "https://developers.google.com/health/migration", status: live}
+  - {stream: Wearable, label: "Google Cloud console (project, enable API, OAuth client)", url: "https://console.cloud.google.com/apis/library", status: configure,
+     note: "RMIT Google Cloud project -> enable Google Health API -> OAuth consent screen -> web client; sensitive health scopes need Google verification"}
+  - {stream: Wearable, label: "Google Health API research pledge", url: "https://developers.google.com/health/policies/health-api-research-pledge", status: configure}
+  - {stream: Wearable, label: "Health API user data and research policy", url: "https://developers.google.com/health/policies/health-api-user-data-and-research-policy", status: live}
+  - {stream: Donation, label: "Australian Internet Observatory (AIO) data donation", url: "https://internetobservatory.org.au", status: pending_ethics,
+     note: "Project configured on the AIO; activate after RMIT HREC approval"}
+  - {stream: Analysis, label: "Code repository", url: "https://github.com/Vas08011980/digital-days", status: live}
+
+participant:
+  - {stream: EMA + phone use, label: "Install AWARE-Light (Android APK; not on the Play Store)", url: "https://awareframework.com/downloads/", status: live,
+     note: "Pin AWARE-Light 4.2.1 for the whole study; join via the study QR code from the Configurator"}
+  - {stream: EMA + phone use, label: "Join study (QR / link from AWARE Configurator)", url: "", status: placeholder}
+  - {stream: Phone use (iOS), label: "Weekly Screen Time upload form (REDCap/Qualtrics)", url: "", status: placeholder}
+  - {stream: Wearable, label: "Link your study Fitbit (Google sign-in consent)", url: "", status: configure,
+     note: "Generated per participant: python -m digital_days.fitbit_client auth-url <study code>"}
+  - {stream: Wearable, label: "Google Health app (pair the study Fitbit)", url: "https://play.google.com/store/search?q=google%20health&c=apps", status: live,
+     note: "Fitbit devices sync only with the Google Health app; check exact store listing in the pilot"}
+  - {stream: Donation, label: "Digital Days donation portal (direct route)", url: "donate.html", status: live,
+     note: "Prototype; upload destination to be configured after ethics"}
+  - {stream: Donation, label: "Request Instagram data", url: "https://accountscenter.instagram.com/info_and_permissions/", status: live}
+  - {stream: Donation, label: "Request TikTok data", url: "https://support.tiktok.com/en/account-and-privacy/personalized-ads-and-data/requesting-your-data", status: live}
+  - {stream: Donation, label: "Request YouTube history (Google Takeout)", url: "https://takeout.google.com/", status: live}
+  - {stream: Donation, label: "Export ChatGPT data", url: "https://chatgpt.com/#settings/DataControls", status: live}
+  - {stream: Donation, label: "Export Claude data", url: "https://claude.ai/settings/data-privacy-controls", status: live}

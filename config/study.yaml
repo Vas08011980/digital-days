@@ -50,7 +50,15 @@ passive:
     fields: [daily_total_minutes, pickups, notifications, top_apps]
   wearable:
     device: "Fitbit"
-    api: "Google Health API (replaces Fitbit Web API, Sept 2026) - verify intraday access before claiming minute-level data"
+    api: "Google Health API v4 (health.googleapis.com)"
+    api_notes: >-
+      Legacy Fitbit Web API support ended 30 Sep 2026 and its endpoints are switched off on
+      2 Nov 2026 (developers.google.com/health). v4 data types used: sleep (list),
+      steps (dailyRollUp), heart-rate (60 s rollUp -> wear minutes). Heart rate is stored at
+      1 s and steps at 1 min resolution, so minute-level wear time is available.
+    oauth_scopes: [googlehealth.sleep.readonly, googlehealth.activity_and_fitness.readonly,
+                   googlehealth.health_metrics_and_measurements.readonly]
+    pull_cadence: "daily during a burst (catch sync gaps early); final pull at burst day 15"
     devices_total: 120
     devices_active: 100
     devices_spare: 20
@@ -58,10 +66,12 @@ passive:
     min_wear_hours_valid_day: 10
 
 donation:
-  route: "Australian Internet Observatory (AIO) data donation (DDPs)"
-  timing: "end of each burst"
-  sources: [tiktok, youtube, chatgpt, claude, instagram]
-  keep_text_from: "participant only"  # AI replies kept only as metadata (length, timestamp)
+  routes:
+    primary: "Australian Internet Observatory (AIO) data donation (DDPs) - project configured, pending ethics"
+    direct: "Digital Days donation portal (docs/donate.html): runs in the participant's browser, nothing leaves the device until they press Donate"
+  timing: "request exports on burst day 12; donate at burst end (day 14)"
+  sources: [tiktok, youtube, instagram, chatgpt, claude]
+  keep_text_from: "participant only"   # AI replies kept only as metadata (length, timestamp)
 
 power:
   reference: "DSEM Monte Carlo simulation (separate repository, ref 47)"

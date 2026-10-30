@@ -1,5 +1,8 @@
-# Participant-facing instructions for requesting each data download package (DDP),
-# to be loaded into the AIO data-donation uploader once ethics approves the sources.
+# Participant-facing instructions for requesting each data download package (DDP).
+# Used by BOTH donation routes:
+#   * AIO data-donation uploader (primary; project configured, pending ethics)
+#   * Digital Days donation portal, docs/donate.html (direct route outside the AIO; the page
+#     reads this content from docs/data/pipeline.json, built by `python -m digital_days.build_site`)
 # Checked 30 Oct 2026 against the sources listed; platforms change menus often,
 # so re-check every link in the pilot burst and before each burst.
 #
@@ -18,6 +21,7 @@ platforms:
       - "Set: Customise information -> 'All available information'; Date range -> 'All time'; Format -> 'JSON'; Media quality -> 'Lower quality'"
       - "Click 'Start export'"
     format: JSON (zip)
+    portal_reads: "your_instagram_activity/**/*.json - timestamps of likes, comments, saved posts, posts viewed (no media, no message text)"
     source: "AIO instructions supplied by the project team (Oct 2026)"
 
   tiktok:
@@ -28,6 +32,7 @@ platforms:
       - "Tap 'Request data'. Preparing the file can take a few days; TikTok notifies you when it is ready"
       - "Download it from the same screen (the file is available for about four days)"
     format: JSON (user_data_tiktok.json, inside a zip)
+    portal_reads: "Watch History -> VideoList dates only (video links are dropped)"
     source: "TechCrunch, 17 Jan 2025; TikTok support page above (verify)"
 
   youtube:
@@ -40,6 +45,7 @@ platforms:
       - "Click 'Next step', keep 'Send download link via email', file type '.zip', then 'Create export'"
       - "Download from the email link (valid about 7 days)"
     format: JSON (Takeout/YouTube and YouTube Music/history/watch-history.json, search-history.json)
+    portal_reads: "watch-history.json times only (titles and links are dropped)"
     note: "If the channel belongs to a Brand Account, switch to it before exporting."
     source: "takeoutday.org guide (third party; verify against support.google.com)"
 
@@ -50,6 +56,7 @@ platforms:
       - "Open Settings -> 'Data controls' -> 'Export data' -> 'Confirm export'"
       - "You will receive an email; click 'Download data export' within 24 hours to get a .zip file"
     format: "zip with chat.html and conversations.json (the parser uses conversations.json)"
+    portal_reads: "conversations.json - your messages (text + time) and the time/length of each AI reply; AI reply text is dropped"
     source: "OpenAI Help Center article 7260999 (page dated 2023; verify current menu)"
 
   claude:
@@ -59,11 +66,23 @@ platforms:
       - "Go to Settings -> Privacy and click 'Export data'"
       - "You will receive an email with a download link; open it within 24 hours while signed in"
     format: "zip with conversations.json"
+    portal_reads: "conversations.json - your messages (text + time) and the time/length of each AI reply; AI reply text is dropped"
     note: "Team/Enterprise accounts can export only if the organisation owner allows it."
     source: "Anthropic support article 9450526"
 
 consent_screen:
-  # shown in the AIO uploader before upload
+  # shown in the AIO uploader / donation portal before upload
   - "You can look through your file and remove anything before you share it."
   - "From AI chats we keep only what YOU wrote, plus the time of each message; the AI's replies are reduced to length and time."
   - "We do not read your files in real time. You can withdraw your donation at any time before analysis."
+
+direct_portal:
+  # Route outside the AIO (prototype). Processing happens in the participant's browser.
+  page: "docs/donate.html"
+  steps:
+    - "Open the donation page from the link in your burst-end SMS/email and enter your study code (e.g., DD1A2B3C4D)"
+    - "Choose the platform and select the .zip (or .json) file you downloaded - it is opened on your device, not uploaded"
+    - "Review the summary and the table of what will be shared; untick any conversation or day you want to remove"
+    - "Press 'Download donation file', then upload that file at the secure RMIT link shown on the page"
+  upload_target: "TO-BE-CONFIGURED: RMIT secure upload (e.g., REDCap file-upload field keyed to the study code, or a SharePoint/OneDrive file request). Must be approved by ethics before use."
+  output_schema: "digital-days-donation/1 (see ingest.donation_portal)"
