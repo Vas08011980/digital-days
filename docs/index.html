@@ -97,7 +97,7 @@ footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
 <body>
 <div class="wrap">
   <header>
-    <span class="eyebrow">Years and moments · Aim 2 · WP2 fast clock</span>
+    <span class="eyebrow">Measurement-burst study · data pipeline</span>
     <h1>Digital Days: one timeline for four data streams</h1>
     <p class="muted">How ~400 young adults (18–25) move through four 14-day bursts: EMA prompts, AWARE-Light phone sensing, Fitbit through the Google Health API, and donated social-media and AI-chat data, aligned to the same study day. Every link the pipeline depends on is listed below with its status.</p>
     <div class="chips" id="chips"></div>
@@ -165,7 +165,7 @@ footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
   <section class="panel" aria-labelledby="h-status">
     <header>
       <span class="eyebrow">Readiness</span>
-      <h2 id="h-status">What is done and what still needs a person</h2>
+      <h2 id="h-status">Current status</h2>
     </header>
     <div class="tablebox"><table><thead><tr><th>Component</th><th>State</th><th>Note</th></tr></thead><tbody id="status"></tbody></table></div>
   </section>
@@ -189,7 +189,7 @@ footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
 
   <footer>
     <span>Code: <a href="https://github.com/Vas08011980/digital-days">github.com/Vas08011980/digital-days</a> · built from config/*.yaml by <span class="mono">python -m digital_days.build_site</span></span>
-    <span>Prototype for grant review. No participant data is collected or shown here.</span>
+    <span>Prototype. No participant data is collected or shown here.</span>
   </footer>
 </div>
 <script src="data/pipeline.js"></script>
@@ -291,7 +291,7 @@ footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
     svg.append(el("text", { x: mx(43), y: 50, fill: ink, "font-size": 13, "font-weight": 600, "text-anchor": "middle", "font-family": css("--body") }, "Follow-up"));
     [13, 19, 25, 31, 37, 43].forEach((m) => svg.append(el("text", { x: mx(m), y: 124, fill: muted, "font-size": 12, "text-anchor": "middle", "font-family": css("--mono") }, `M${m}`)));
     svg.append(el("text", { x: mx(12), y: 145, fill: muted, "font-size": 12, "font-family": css("--body") },
-      "Each burst round runs as 4 staggered cohorts so 100 Fitbits (plus 20 spares) cover everyone; WP2 analyses burst 1, WP3 bursts 1–4."));
+      "Each burst round runs as 4 staggered cohorts so 100 Fitbits (plus 20 spares) cover everyone."));
   }
 
   // ---------------- streams
