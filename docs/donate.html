@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digital Days Donation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single guided column of four steps; the review table is the heart of the page */
+:root {
+  --bg: #eef1ef; --panel: #ffffff; --ink: #16201d; --muted: #5a6763; --line: #d5dcd9;
+  --accent: #0e6b64; --accent-soft: #d6ebe7; --warn: #9a6412; --warn-soft: #f6ead3; --bad: #a3402a;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111816; --panel: #18211e; --ink: #e5ece9; --muted: #9aa8a3; --line: #2c3834;
+  --accent: #4fc2b4; --accent-soft: #173a36; --warn: #e0ad5a; --warn-soft: #3a2e17; --bad: #ea8d74; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111816; --panel: #18211e; --ink: #e5ece9; --muted: #9aa8a3; --line: #2c3834;
+  --accent: #4fc2b4; --accent-soft: #173a36; --warn: #e0ad5a; --warn-soft: #3a2e17; --bad: #ea8d74; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body); }
+.wrap { max-width: 760px; margin: 0 auto; padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 18px; }
+h1, h2 { font-family: var(--display); margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.08; }
+h2 { font-size: 19px; display: flex; gap: 10px; align-items: baseline; }
+h2 .n { font: 500 13px var(--mono); color: var(--accent); }
+p { margin: 0; max-width: 64ch; }
+a { color: var(--accent); }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: grid; gap: 12px; min-width: 0; }
+label { font-weight: 500; }
+input[type=text], select { font: 16px var(--body); padding: 9px 10px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); width: 100%; max-width: 360px; }
+input[type=file] { font: 15px var(--body); max-width: 100%; }
+button { font: 600 15px var(--body); padding: 10px 14px; border-radius: 5px; border: 1px solid var(--accent); background: var(--accent); color: var(--panel); cursor: pointer; }
+button.ghost { background: transparent; color: var(--accent); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+ol.steps { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+.note { font-size: 14px; border-radius: 6px; padding: 10px 12px; background: var(--accent-soft); }
+.note.warn { background: var(--warn-soft); }
+.err { color: var(--bad); font-size: 14px; }
+.sum { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.sum div { border-left: 3px solid var(--accent); padding-left: 10px; }
+.sum b { display: block; font: 600 22px var(--mono); font-variant-numeric: tabular-nums; }
+.tablebox { overflow: auto; max-height: 420px; border: 1px solid var(--line); border-radius: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { position: sticky; top: 0; background: var(--panel); text-align: left; font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 8px; border-bottom: 1px solid var(--line); }
+td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.spark { display: flex; align-items: end; gap: 2px; height: 46px; }
+.spark i { flex: 1; background: var(--accent); min-height: 1px; border-radius: 1px 1px 0 0; }
+ul.consent { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 15px; }
+footer { font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header style="display:grid;gap:10px">
+    <span class="eyebrow">Digital Days · end of burst · direct donation route</span>
+    <h1>Share your data, on your terms</h1>
+    <p class="muted">Your file is opened here, on your own device. Nothing is sent anywhere while you look through it. You choose what to remove, then save a small donation file and upload it at the secure study link.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="h1s">
+    <h2 id="h1s"><span class="n">1</span>Your study code</h2>
+    <label for="code">Study code (from your welcome SMS)</label>
+    <input id="code" type="text" placeholder="DD1A2B3C4D" autocomplete="off" spellcheck="false" maxlength="10">
+    <span class="err" id="codeErr" hidden>Study codes start with DD followed by 8 letters or digits (A–F, 0–9).</span>
+  </section>
+
+  <section class="panel" aria-labelledby="h2s">
+    <h2 id="h2s"><span class="n">2</span>Choose a platform and get your file</h2>
+    <label for="platform">Platform</label>
+    <select id="platform">
+      <option value="chatgpt">ChatGPT</option><option value="claude">Claude</option><option value="tiktok">TikTok</option>
+      <option value="youtube">YouTube</option><option value="instagram">Instagram</option>
+    </select>
+    <div id="howto"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h3s">
+    <h2 id="h3s"><span class="n">3</span>Open the file and review it</h2>
+    <label for="file">Select the .zip or .json file you downloaded</label>
+    <div class="row"><input id="file" type="file" accept=".zip,.json,application/zip,application/json"><button class="ghost" id="sample" type="button">Try a sample file</button></div>
+    <span class="err" id="fileErr" hidden></span>
+    <div id="review" hidden style="display:grid;gap:12px">
+      <div class="sum" id="sum"></div>
+      <div><span class="muted" style="font-size:13px">Activity per day</span><div class="spark" id="spark"></div></div>
+      <p class="muted" style="font-size:14px" id="keepnote"></p>
+      <div class="row"><button class="ghost" type="button" id="all">Keep all</button><button class="ghost" type="button" id="none">Remove all</button></div>
+      <div class="tablebox"><table><thead id="thead"></thead><tbody id="rows"></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h4s">
+    <h2 id="h4s"><span class="n">4</span>Donate</h2>
+    <ul class="consent" id="consent"></ul>
+    <div class="row"><button id="save" type="button" disabled>Save donation file</button><span class="muted" id="saveInfo" style="font-size:14px"></span></div>
+    <p class="note warn" id="upload">Upload link: to be configured after ethics approval (RMIT secure upload). In this prototype the file stays on your device.</p>
+  </section>
+
+  <footer>Prototype for the Digital Days study (RMIT University). Questions: contact the study coordinator. <a href="index.html">How the study pipeline works</a>.</footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="data/pipeline.js"></script>
+<script>
+(function () {
+  const D = window.DD_PIPELINE || {};
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const words = (t) => (String(t || "").trim().match(/\S+/g) || []).length;
+  const TZ = (D.study && D.study.timezone) || "Australia/Melbourne";
+  const dayOf = (iso) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(iso));
+  const AI = new Set(["chatgpt", "claude"]);
+  let parsed = null; // {source, records, groups:[{id,label,n,first,last}], keep:Set}
+
+  // ---------- instructions from config (falls back to a short line if data file missing)
+  function howto() {
+    const p = $("platform").value, v = (D.donation_platforms || {})[p];
+    if (!v) { $("howto").innerHTML = "<p class='muted'>Instructions unavailable.</p>"; return; }
+    $("howto").innerHTML = `<ol class="steps">${v.steps.map((s) => `<li>${esc(s)}</li>`).join("")}</ol>
+      <p><a href="${esc(v.request_url)}" target="_blank" rel="noopener">Open the ${esc(p)} export page</a></p>
+      <p class="note">We keep: ${esc(v.portal_reads || "")}</p>`;
+  }
+  $("platform").addEventListener("change", () => { howto(); reset(); });
+  $("consent").innerHTML = (D.consent_screen || []).map((c) => `<li>${esc(c)}</li>`).join("");
+
+  // ---------- parsers: each returns {records, groups}
+  function parseChatGPT(js) {
+    const records = [], groups = [];
+    for (const conv of js) {
+      const id = conv.id || conv.conversation_id || ("c" + groups.length); let n = 0, first = null, last = null;
+      for (const node of Object.values(conv.mapping || {})) {
+        const m = node && node.message; if (!m || !m.create_time) continue;
+        const role = m.author && m.author.role; if (role !== "user" && role !== "assistant") continue;
+        const text = ((m.content && m.content.parts) || []).filter((x) => typeof x === "string").join(" ");
+        const ts = new Date(m.create_time * 1000).toISOString();
+        records.push({ ts, kind: "message", role: role === "user" ? "participant" : "ai", words: words(text), text: role === "user" ? text : null, conversation_id: id, _g: id });
+        n++; first = !first || ts < first ? ts : first; last = !last || ts > last ? ts : last;
+      }
+      if (n) groups.push({ id, label: conv.title || "Untitled conversation", n, first, last });
+    }
+    return { records, groups };
+  }
+  function parseClaude(js) {
+    const records = [], groups = [];
+    for (const conv of js) {
+      const id = conv.uuid || ("k" + groups.length); let n = 0, first = null, last = null;
+      for (const m of conv.chat_messages || []) {
+        if (!m.created_at) continue;
+        const human = m.sender === "human", ts = new Date(m.created_at).toISOString(), text = m.text || "";
+        records.push({ ts, kind: "message", role: human ? "participant" : "ai", words: words(text), text: human ? text : null, conversation_id: id, _g: id });
+        n++; first = !first || ts < first ? ts : first; last = !last || ts > last ? ts : last;
+      }
+      if (n) groups.push({ id, label: conv.name || "Untitled conversation", n, first, last });
+    }
+    return { records, groups };
+  }
+  const byDay = (records) => {
+    const g = {}; records.forEach((r) => { r._g = dayOf(r.ts); (g[r._g] = g[r._g] || []).push(r.ts); });
+    return Object.keys(g).sort().map((d) => ({ id: d, label: d, n: g[d].length, first: g[d][0], last: g[d][g[d].length - 1] }));
+  };
+  function parseTikTok(js) {
+    const act = js["Your Activity"] || js["Activity"] || {}, hist = act["Watch History"] || act["Video Browsing History"] || {};
+    const records = (hist.VideoList || []).filter((v) => v.Date).map((v) => ({ ts: new Date(v.Date.replace(" ", "T") + "Z").toISOString(), kind: "view" }));
+    return { records, groups: byDay(records) };
+  }
+  function parseYouTube(js) {
+    const records = js.filter((v) => v.header === "YouTube" && v.time).map((v) => ({ ts: new Date(v.time).toISOString(), kind: "view" }));
+    return { records, groups: byDay(records) };
+  }
+  function parseInstagram(files) { // [{name, json}]: collect every numeric `timestamp` (seconds) in activity files
+    const records = [];
+    const walk = (o, kind) => { if (Array.isArray(o)) return o.forEach((x) => walk(x, kind));
+      if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) {
+        if (k === "timestamp" && typeof v === "number" && v > 1e9) records.push({ ts: new Date(v * 1000).toISOString(), kind });
+        else walk(v, kind); } };
+    files.forEach((f) => walk(f.json, f.name.split("/").pop().replace(/\.json$/, "")));
+    return { records, groups: byDay(records) };
+  }
+
+  async function readInput(file, source) {
+    const isZip = /\.zip$/i.test(file.name) || file.type.includes("zip");
+    if (!isZip) return JSON.parse(await file.text());
+    if (!window.JSZip) throw new Error("The zip reader did not load. Unzip the file and select the .json inside it.");
+    const zip = await JSZip.loadAsync(file), names = Object.keys(zip.files).filter((n) => !zip.files[n].dir);
+    const pick = async (re) => { const n = names.find((x) => re.test(x)); if (!n) throw new Error("This zip does not contain the expected file. Check you chose the right platform."); return JSON.parse(await zip.file(n).async("string")); };
+    if (source === "chatgpt" || source === "claude") return pick(/(^|\/)conversations\.json$/i);
+    if (source === "tiktok") return pick(/user_data.*\.json$/i);
+    if (source === "youtube") return pick(/watch-history\.json$/i);
+    const act = names.filter((n) => /your_instagram_activity\/.*\.json$/i.test(n) && !/messages\//i.test(n));
+    if (!act.length) throw new Error("No Instagram activity files found. Export in JSON format (step 2).");
+    return Promise.all(act.map(async (n) => ({ name: n, json: JSON.parse(await zip.file(n).async("string")) })));
+  }
+
+  function reset() { parsed = null; $("review").hidden = true; $("save").disabled = true; $("saveInfo").textContent = ""; $("fileErr").hidden = true; }
+  async function handle(file) {
+    reset(); const source = $("platform").value;
+    try {
+      const raw = await readInput(file, source);
+      const fn = { chatgpt: parseChatGPT, claude: parseClaude, tiktok: parseTikTok, youtube: parseYouTube, instagram: parseInstagram }[source];
+      const out = fn(source === "instagram" && !Array.isArray(raw[0]?.json) && !raw[0]?.name ? [{ name: "activity.json", json: raw }] : raw);
+      if (!out.records.length) throw new Error("No activity with dates was found in this file.");
+      parsed = { source, ...out, keep: new Set(out.groups.map((g) => g.id)) };
+      render();
+    } catch (e) { $("fileErr").textContent = e.message || String(e); $("fileErr").hidden = false; }
+  }
+  $("file").addEventListener("change", (e) => e.target.files[0] && handle(e.target.files[0]));
+
+  function render() {
+    const P = parsed, kept = P.records.filter((r) => P.keep.has(r._g)), ai = AI.has(P.source);
+    const days = [...new Set(kept.map((r) => dayOf(r.ts)))].sort();
+    const mine = kept.filter((r) => r.role === "participant").length;
+    $("sum").innerHTML = (ai ? [["Conversations kept", `${P.keep.size} / ${P.groups.length}`], ["Your messages", mine], ["AI replies (time + length only)", kept.length - mine]]
+      : [["Days kept", `${P.keep.size} / ${P.groups.length}`], ["Events", kept.length]]).concat([["From – to", days.length ? `${days[0].slice(5)} – ${days[days.length - 1].slice(5)}` : "—"]])
+      .map(([l, v]) => `<div><span class="muted" style="font-size:13px">${esc(l)}</span><b>${esc(v)}</b></div>`).join("");
+    const counts = {}; kept.forEach((r) => { const d = dayOf(r.ts); counts[d] = (counts[d] || 0) + 1; });
+    const mx = Math.max(1, ...Object.values(counts)), allDays = P.groups.length && !ai ? P.groups.map((g) => g.id) : Object.keys(counts).sort();
+    $("spark").innerHTML = allDays.slice(-120).map((d) => `<i title="${esc(d)}: ${counts[d] || 0}" style="height:${(100 * (counts[d] || 0) / mx).toFixed(1)}%"></i>`).join("");
+    $("keepnote").textContent = ai ? "Untick any conversation you do not want to share. Conversation titles are shown only to you and are not included in the donation file."
+      : "Untick any day you do not want to share. Only the time of each event is kept.";
+    $("thead").innerHTML = `<tr><th>Keep</th><th>${ai ? "Conversation" : "Day"}</th><th style="text-align:right">${ai ? "Messages" : "Events"}</th><th>${ai ? "Last active" : ""}</th></tr>`;
+    $("rows").innerHTML = P.groups.map((g, i) => `<tr><td><input type="checkbox" id="g${i}" data-g="${esc(g.id)}" ${P.keep.has(g.id) ? "checked" : ""}></td>
+      <td><label for="g${i}" style="font-weight:400">${esc(g.label)}</label></td><td class="num">${g.n}</td><td class="muted">${ai ? esc(dayOf(g.last)) : ""}</td></tr>`).join("");
+    $("review").hidden = false; validate();
+  }
+  $("rows").addEventListener("change", (e) => { const g = e.target.dataset.g; if (!g) return; e.target.checked ? parsed.keep.add(g) : parsed.keep.delete(g); render(); });
+  $("all").addEventListener("click", () => { parsed.groups.forEach((g) => parsed.keep.add(g.id)); render(); });
+  $("none").addEventListener("click", () => { parsed.keep.clear(); render(); });
+
+  const codeOk = () => /^DD[0-9A-F]{8}$/.test($("code").value.trim().toUpperCase());
+  function validate() { $("codeErr").hidden = !$("code").value || codeOk(); $("save").disabled = !(parsed && parsed.keep.size && codeOk()); }
+  $("code").addEventListener("input", validate);
+
+  $("save").addEventListener("click", () => {
+    const P = parsed, code = $("code").value.trim().toUpperCase();
+    const records = P.records.filter((r) => P.keep.has(r._g)).map(({ _g, ...r }) => r);
+    const out = { schema: "digital-days-donation/1", source: P.source, study_code: code, created: new Date().toISOString(),
+      removed_groups: P.groups.length - P.keep.size, records };
+    const blob = new Blob([JSON.stringify(out)], { type: "application/json" }), a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = `digital_days_donation_${P.source}_${code}.json`;
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    $("saveInfo").textContent = `Saved ${a.download} (${records.length} records, ${(blob.size / 1024).toFixed(0)} KB).`;
+  });
+
+  // ---------- sample file so reviewers can see the flow without real data
+  $("sample").addEventListener("click", () => {
+    $("platform").value = "chatgpt"; howto();
+    if (!$("code").value) $("code").value = "DD1A2B3C4D";
+    const t0 = Date.parse("2028-01-10T09:00:00Z") / 1000, conv = [];
+    const topics = ["Essay plan for week 6", "Can't sleep", "Recipe ideas", "Job interview prep", "Feeling flat today"];
+    topics.forEach((title, k) => { const mapping = {};
+      for (let j = 0; j < 4 + k; j++) { const t = t0 + k * 86400 * 2 + j * 300 + (title === "Can't sleep" ? 15 * 3600 : 0);
+        mapping["u" + j] = { message: { author: { role: "user" }, create_time: t, content: { parts: ["example message " + (j + 1)] } } };
+        mapping["a" + j] = { message: { author: { role: "assistant" }, create_time: t + 8, content: { parts: ["example reply that will be reduced to its length"] } } }; }
+      conv.push({ id: "sample-" + k, title: title + " (example)", mapping }); });
+    handle(new File([JSON.stringify(conv)], "conversations.json", { type: "application/json" }));
+  });
+
+  howto();
+})();
+</script>
+</body>
+</html>

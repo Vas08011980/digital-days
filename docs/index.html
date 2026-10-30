@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Digital Days Pipeline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column of instrument panels; the participant's study day is the centrepiece */
+:root {
+  --bg: #eef1ef; --panel: #ffffff; --ink: #16201d; --muted: #5a6763; --line: #d5dcd9;
+  --accent: #0e6b64; --accent-soft: #d6ebe7; --night: #2b3a56; --night-soft: #dfe4ef;
+  --warn: #9a6412; --warn-soft: #f6ead3; --bad: #a3402a; --bad-soft: #f6e0da; --ok: #2f7a3b; --ok-soft: #dcefdc;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111816; --panel: #18211e; --ink: #e5ece9; --muted: #9aa8a3; --line: #2c3834;
+  --accent: #4fc2b4; --accent-soft: #173a36; --night: #9fb2dc; --night-soft: #222c40;
+  --warn: #e0ad5a; --warn-soft: #3a2e17; --bad: #ea8d74; --bad-soft: #3c231c; --ok: #7fcf8a; --ok-soft: #1c3420;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #111816; --panel: #18211e; --ink: #e5ece9; --muted: #9aa8a3; --line: #2c3834;
+  --accent: #4fc2b4; --accent-soft: #173a36; --night: #9fb2dc; --night-soft: #222c40;
+  --warn: #e0ad5a; --warn-soft: #3a2e17; --bad: #ea8d74; --bad-soft: #3c231c; --ok: #7fcf8a; --ok-soft: #1c3420;
+  color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 22px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.05; font-weight: 700; }
+h2 { font-size: 22px; font-weight: 700; }
+h3 { font-size: 16px; font-weight: 500; }
+p { margin: 0; max-width: 68ch; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+header { display: grid; gap: 12px; padding-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 500 12px/1 var(--mono); padding: 6px 9px; border-radius: 4px; background: var(--panel); border: 1px solid var(--line); white-space: nowrap; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 20px; display: grid; gap: 16px; min-width: 0; }
+.panel > header { padding: 0; gap: 6px; }
+.state { display: inline-block; font: 500 11px/1 var(--mono); letter-spacing: .04em; padding: 4px 7px; border-radius: 3px; white-space: nowrap; }
+.s-live, .s-built { background: var(--ok-soft); color: var(--ok); }
+.s-configure, .s-drafted, .s-prototype { background: var(--accent-soft); color: var(--accent); }
+.s-pending_ethics, .s-pending-ethics, .s-open, .s-open-decision, .s-not-submitted { background: var(--warn-soft); color: var(--warn); }
+.s-new, .s-adapted { background: var(--night-soft); color: var(--night); }
+.s-placeholder, .s-retired { background: var(--bad-soft); color: var(--bad); }
+/* study day */
+.daybar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.daybtn { font: 500 12px var(--mono); width: 34px; height: 30px; border-radius: 4px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+.daybtn[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.daybtn.flag { border-color: var(--accent); }
+.svgbox { overflow-x: auto; }
+.svgbox svg { display: block; min-width: 720px; width: 100%; height: auto; }
+.daynote { font-size: 14px; background: var(--accent-soft); border-radius: 6px; padding: 10px 12px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 6px; }
+/* streams */
+.streams { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; }
+.stream { border: 1px solid var(--line); border-radius: 6px; padding: 14px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.stream h3 { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.stream dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 13px; }
+.stream dt { color: var(--muted); }
+.stream dd { margin: 0; min-width: 0; }
+/* flow */
+.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.step { border-top: 3px solid var(--accent); padding-top: 10px; display: grid; gap: 6px; align-content: start; }
+.step ul { margin: 0; padding-left: 16px; font-size: 13px; color: var(--muted); }
+@media (max-width: 760px) { .flow { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 460px) { .flow { grid-template-columns: 1fr; } }
+/* tables */
+.tablebox { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th { text-align: left; font: 500 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); }
+td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+td a { word-break: break-word; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+select { font: 14px var(--body); padding: 6px 8px; border-radius: 4px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.kpi { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; display: grid; gap: 2px; }
+.kpi b { font: 600 24px/1.1 var(--mono); font-variant-numeric: tabular-nums; }
+.kpi.hl { border-left-color: var(--accent); }
+details summary { cursor: pointer; font-weight: 500; }
+footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+@media (prefers-reduced-motion: no-preference) { .marker { transition: opacity .2s; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Years and moments · Aim 2 · WP2 fast clock</span>
+    <h1>Digital Days: one timeline for four data streams</h1>
+    <p class="muted">How ~400 young adults (18–25) move through four 14-day bursts: EMA prompts, AWARE-Light phone sensing, Fitbit through the Google Health API, and donated social-media and AI-chat data, aligned to the same study day. Every link the pipeline depends on is listed below with its status.</p>
+    <div class="chips" id="chips"></div>
+  </header>
+
+  <section class="panel" aria-labelledby="h-day">
+    <header>
+      <span class="eyebrow">What a participant's day looks like</span>
+      <h2 id="h-day">A study day runs 04:00 to 03:59</h2>
+      <p class="muted">Late-night use belongs to the evening before, so its effect is tested on the next day. Pick a burst day.</p>
+    </header>
+    <div class="daybar" id="daybar" role="group" aria-label="Burst day"></div>
+    <div class="svgbox"><svg id="daysvg" viewBox="0 0 1000 300" role="img" aria-label="Timeline of one study day"></svg></div>
+    <div class="legend" id="daylegend"></div>
+    <p class="daynote" id="daynote"></p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-bursts">
+    <header>
+      <span class="eyebrow">Across the project</span>
+      <h2 id="h-bursts">Four bursts, six months apart, then a follow-up</h2>
+    </header>
+    <div class="svgbox"><svg id="burstsvg" viewBox="0 0 1000 150" role="img" aria-label="Project timeline of bursts"></svg></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-streams">
+    <header>
+      <span class="eyebrow">Streams</span>
+      <h2 id="h-streams">What each stream captures and where it goes</h2>
+    </header>
+    <div class="streams" id="streams"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-flow">
+    <header>
+      <span class="eyebrow">Code path</span>
+      <h2 id="h-flow">From raw exports to the Mplus DSEM files</h2>
+    </header>
+    <div class="flow" id="flow"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-links">
+    <header>
+      <span class="eyebrow">Every link</span>
+      <h2 id="h-links">Links for researchers and participants</h2>
+    </header>
+    <div class="filters">
+      <label for="f-aud" class="muted">Audience</label>
+      <select id="f-aud"><option value="all">All</option><option value="researcher">Researchers</option><option value="participant">Participants</option></select>
+      <label for="f-stream" class="muted">Stream</label>
+      <select id="f-stream"><option value="all">All streams</option></select>
+    </div>
+    <div class="tablebox"><table><thead><tr><th>Link</th><th>Stream</th><th>For</th><th>Status</th></tr></thead><tbody id="links"></tbody></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-don">
+    <header>
+      <span class="eyebrow">Data donation</span>
+      <h2 id="h-don">Two routes: the AIO, or the direct portal</h2>
+      <p class="muted">Participants request their exports on burst day 12 and donate on day 14. The direct portal opens the file on the participant's own device, keeps only what the study needs, and lets them remove anything before sharing. <a href="donate.html">Open the donation portal</a>.</p>
+    </header>
+    <div class="tablebox"><table><thead><tr><th>Platform</th><th>Request the export</th><th>What we keep</th></tr></thead><tbody id="donation"></tbody></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-status">
+    <header>
+      <span class="eyebrow">Readiness</span>
+      <h2 id="h-status">What is done and what still needs a person</h2>
+    </header>
+    <div class="tablebox"><table><thead><tr><th>Component</th><th>State</th><th>Note</th></tr></thead><tbody id="status"></tbody></table></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-sim">
+    <header>
+      <span class="eyebrow">End-to-end test on simulated data</span>
+      <h2 id="h-sim">Does the pipeline recover a planted effect?</h2>
+      <p class="muted">Synthetic participants are written in every native export format; a within-person effect of late-night AI chatting on next-day mood is planted and then re-estimated after ingest, alignment and QC. This tests the code, not the hypothesis.</p>
+    </header>
+    <div class="kpis" id="kpis"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-items">
+    <header>
+      <span class="eyebrow">Item bank</span>
+      <h2 id="h-items">EMA items in the check-in and evening report</h2>
+    </header>
+    <details><summary id="itemsum">Show items</summary><div class="tablebox"><table><thead><tr><th>Block</th><th>ID</th><th>Item</th><th>Status</th></tr></thead><tbody id="items"></tbody></table></div></details>
+  </section>
+
+  <footer>
+    <span>Code: <a href="https://github.com/Vas08011980/digital-days">github.com/Vas08011980/digital-days</a> · built from config/*.yaml by <span class="mono">python -m digital_days.build_site</span></span>
+    <span>Prototype for grant review. No participant data is collected or shown here.</span>
+  </footer>
+</div>
+<script src="data/pipeline.js"></script>
+<script>
+(function () {
+  const D = window.DD_PIPELINE;
+  if (!D) { document.querySelector(".wrap").insertAdjacentHTML("afterbegin", "<p class='daynote'>Site data missing: run python -m digital_days.build_site.</p>"); return; }
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const state = (s) => `<span class="state s-${slug(s)}">${esc(String(s).replace(/_/g, " "))}</span>`;
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; };
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+  // chips
+  const r = D.recovery || {};
+  const chips = [`v${D.version}`, `built ${D.built}`, `N ≈ ${D.sample.enrol_target} → ${D.sample.retain_target}`,
+    `${D.bursts.n} × ${D.bursts.length_days}-day bursts`, `${D.item_counts.checkin} check-in + ${D.item_counts.evening} evening items`];
+  if (r.beta_within != null) chips.push(`recovered β ${r.beta_within} (planted ${r.planted})`);
+  $("chips").innerHTML = chips.map((c) => `<span class="chip">${esc(c)}</span>`).join("");
+
+  // ---------------- study day
+  const LANES = [
+    { key: "ema", label: "EMA prompts", color: "--accent" },
+    { key: "phone", label: "Phone (AWARE-Light)", color: "--muted" },
+    { key: "fitbit", label: "Fitbit → Google Health", color: "--ok" },
+    { key: "donation", label: "Donation", color: "--warn" },
+  ];
+  const X0 = 170, X1 = 980, H0 = 4; // hours from 04:00
+  const hx = (h) => X0 + ((h - H0 + 24) % 24) / 24 * (X1 - X0);
+  let day = 1;
+  function rand(seed) { let s = seed; return () => (s = (s * 9301 + 49297) % 233280) / 233280; }
+  function drawDay() {
+    const svg = $("daysvg"); svg.innerHTML = "";
+    const ink = css("--ink"), muted = css("--muted"), line = css("--line"), night = css("--night-soft");
+    svg.append(el("rect", { x: hx(23), y: 30, width: X1 - hx(23), height: 250, fill: night }));
+    svg.append(el("text", { x: X1 - 6, y: 46, fill: css("--night"), "font-size": 12, "text-anchor": "end", "font-family": css("--mono") }, "23:00–03:59 = same study day"));
+    for (let h = 4; h <= 28; h += 2) {
+      const x = X0 + (h - 4) / 24 * (X1 - X0);
+      svg.append(el("line", { x1: x, x2: x, y1: 56, y2: 270, stroke: line, "stroke-width": 1 }));
+      svg.append(el("text", { x, y: 292, fill: muted, "font-size": 12, "text-anchor": "middle", "font-family": css("--mono") }, String(h % 24).padStart(2, "0") + ":00"));
+    }
+    LANES.forEach((l, i) => {
+      const y = 80 + i * 52;
+      svg.append(el("text", { x: 0, y: y + 4, fill: ink, "font-size": 13, "font-family": css("--body"), "font-weight": 600 }, l.label));
+      svg.append(el("line", { x1: X0, x2: X1, y1: y, y2: y, stroke: line }));
+    });
+    const R = rand(day * 7 + 3), c = (v) => css(v);
+    // EMA: 3 random check-ins 09-21, >=120 min apart; evening report
+    const ci = D.ema.checkins, w0 = parseInt(ci.window[0]), w1 = parseInt(ci.window[1]);
+    let times = [];
+    while (times.length < ci.per_day) { const t = w0 + R() * (w1 - w0 - 1); if (times.every((u) => Math.abs(u - t) * 60 >= ci.min_gap_minutes)) times.push(t); }
+    times.sort((a, b) => a - b).forEach((t, k) => {
+      svg.append(el("circle", { cx: hx(t), cy: 80, r: 8, fill: c("--accent") }));
+      svg.append(el("text", { x: hx(t), y: 66, fill: muted, "font-size": 11, "text-anchor": "middle", "font-family": c("--mono") }, `check-in ${k + 1}`));
+    });
+    const ev = parseInt(D.ema.evening.time) + parseInt(D.ema.evening.time.slice(3)) / 60;
+    svg.append(el("rect", { x: hx(ev) - 9, y: 71, width: 18, height: 18, rx: 3, fill: c("--ink") }));
+    svg.append(el("text", { x: hx(ev), y: 66, fill: muted, "font-size": 11, "text-anchor": "middle", "font-family": c("--mono") }, "evening"));
+    // phone: sessions
+    for (let k = 0; k < 26; k++) { const t = 7 + R() * 19; const w = 2 + R() * 9; svg.append(el("rect", { x: hx(t), y: 124, width: w, height: 16, fill: t > 23 ? c("--night") : c("--muted"), opacity: .85 })); }
+    // fitbit: sleep block + wear
+    svg.append(el("rect", { x: X0, y: 174, width: hx(7.2) - X0, height: 16, fill: c("--ok"), opacity: .45 }));
+    svg.append(el("rect", { x: hx(23.6), y: 174, width: X1 - hx(23.6), height: 16, fill: c("--ok"), opacity: .45 }));
+    svg.append(el("rect", { x: hx(7.2), y: 179, width: hx(23.6) - hx(7.2), height: 6, fill: c("--ok") }));
+    svg.append(el("text", { x: X0 + 6, y: 166, fill: muted, "font-size": 11, "font-family": c("--mono") }, "sleep (ends today → today's sleep_min)"));
+    svg.append(el("text", { x: hx(12), y: 166, fill: muted, "font-size": 11, "font-family": c("--mono") }, "steps + heart-rate minutes → wear time"));
+    // donation
+    const dn = { 12: "request exports (TikTok can take days)", 14: "donate: AIO uploader or portal" };
+    if (dn[day]) { svg.append(el("path", { d: `M${hx(18)} 222 l9 14 l-18 0 z`, fill: c("--warn") })); svg.append(el("text", { x: hx(18) + 16, y: 236, fill: ink, "font-size": 12, "font-family": c("--body") }, dn[day])); }
+    else svg.append(el("text", { x: X0 + 6, y: 236, fill: muted, "font-size": 12, "font-family": c("--body") }, "no action today; donated timestamps later back-fill this day"));
+    const notes = {
+      1: "Day 1: burst-start full scales (~25 min), join AWARE-Light with the study code, receive Fitbit and link it once through Google sign-in.",
+      12: "Day 12: participants request their data exports so files arrive by day 14 (ChatGPT and Claude links expire after 24 hours).",
+      14: "Day 14: last prompts, Fitbit returned for the next cohort, donations reviewed and shared. Final Google Health pull runs on day 15.",
+    };
+    $("daynote").textContent = notes[day] || `Day ${day}: three ~1-minute check-ins and a ~3-minute evening report. Phone sensing and Fitbit run in the background; nothing is monitored in real time.`;
+  }
+  $("daybar").innerHTML = Array.from({ length: D.bursts.length_days }, (_, i) =>
+    `<button class="daybtn${[1, 12, 14].includes(i + 1) ? " flag" : ""}" data-d="${i + 1}" aria-pressed="${i === 0}">${i + 1}</button>`).join("");
+  $("daybar").addEventListener("click", (e) => { const b = e.target.closest(".daybtn"); if (!b) return; day = +b.dataset.d;
+    document.querySelectorAll(".daybtn").forEach((x) => x.setAttribute("aria-pressed", x === b)); drawDay(); });
+  $("daylegend").innerHTML = `<span><i style="background:var(--accent)"></i>check-in (random, ${esc(D.ema.checkins.window.join("–"))}, ≥${D.ema.checkins.min_gap_minutes} min apart)</span>
+    <span><i style="background:var(--ink)"></i>evening report (${esc(D.ema.evening.time)}; AWARE fires on the hour)</span>
+    <span><i style="background:var(--muted)"></i>screen-on sessions (Android)</span><span><i style="background:var(--ok)"></i>Fitbit</span>`;
+
+  // ---------------- bursts
+  function drawBursts() {
+    const svg = $("burstsvg"); svg.innerHTML = "";
+    const mx = (m) => 40 + (m - 12) / 33 * 920, muted = css("--muted"), ink = css("--ink");
+    svg.append(el("line", { x1: mx(12), x2: mx(45), y1: 100, y2: 100, stroke: css("--line"), "stroke-width": 2 }));
+    [13, 19, 25, 31].forEach((m, k) => {
+      svg.append(el("rect", { x: mx(m), y: 60, width: mx(m + 2.4) - mx(m), height: 40, rx: 3, fill: css("--accent") }));
+      svg.append(el("text", { x: mx(m), y: 50, fill: ink, "font-size": 13, "font-weight": 600, "font-family": css("--body") }, `Burst ${k + 1}`));
+      for (let c = 0; c < 4; c++) svg.append(el("line", { x1: mx(m + c * 0.62), x2: mx(m + c * 0.62), y1: 60, y2: 100, stroke: css("--panel"), "stroke-width": 1.5 }));
+    });
+    svg.append(el("circle", { cx: mx(43), cy: 80, r: 9, fill: ink }));
+    svg.append(el("text", { x: mx(43), y: 50, fill: ink, "font-size": 13, "font-weight": 600, "text-anchor": "middle", "font-family": css("--body") }, "Follow-up"));
+    [13, 19, 25, 31, 37, 43].forEach((m) => svg.append(el("text", { x: mx(m), y: 124, fill: muted, "font-size": 12, "text-anchor": "middle", "font-family": css("--mono") }, `M${m}`)));
+    svg.append(el("text", { x: mx(12), y: 145, fill: muted, "font-size": 12, "font-family": css("--body") },
+      "Each burst round runs as 4 staggered cohorts so 100 Fitbits (plus 20 spares) cover everyone; WP2 analyses burst 1, WP3 bursts 1–4."));
+  }
+
+  // ---------------- streams
+  const L = D.links, all = [...L.researcher.map((x) => ({ ...x, aud: "researcher" })), ...L.participant.map((x) => ({ ...x, aud: "participant" }))];
+  const linksFor = (s) => all.filter((x) => x.url && x.stream.toLowerCase().includes(s)).slice(0, 3)
+    .map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join("<br>");
+  const P = D.passive;
+  const streams = [
+    { t: "EMA", s: "drafted", tool: "AWARE-Light ESM or one cross-platform EMA app", cap: `${D.ema.checkins.per_day} check-ins/day (mood, loneliness, stress, online use) + evening report`, fb: "—", k: "ema" },
+    { t: "Phone use", s: "built", tool: `${P.android.tool} ${P.android.version_pinned} (Android)`, cap: "foreground apps, screen sessions, notification metadata", fb: "iOS: weekly Screen Time upload", k: "phone" },
+    { t: "Wearable", s: "built", tool: "Fitbit → Google Health API v4", cap: "sleep, daily steps, minutes with heart rate (wear time)", fb: "Fitabase export", k: "wearable" },
+    { t: "Donation", s: "prototype", tool: "AIO (pending ethics) or direct portal", cap: D.donation.sources.join(", "), fb: "—", k: "donation" },
+    { t: "Full scales", s: "drafted", tool: "Qualtrics / REDCap", cap: `${D.item_counts.burst_start} items at each burst start and follow-up`, fb: "—", k: "full" },
+  ];
+  $("streams").innerHTML = streams.map((s) => `<article class="stream"><h3>${esc(s.t)} ${state(s.s)}</h3>
+    <dl><dt>Tool</dt><dd>${esc(s.tool)}</dd><dt>Captures</dt><dd>${esc(s.cap)}</dd><dt>Fallback</dt><dd>${esc(s.fb)}</dd></dl>
+    <div style="font-size:13px">${linksFor(s.k === "ema" ? "ema" : s.k === "phone" ? "phone" : s.k === "wearable" ? "wearable" : s.k === "donation" ? "donation" : "zzz") || ""}</div></article>`).join("");
+
+  // ---------------- flow
+  $("flow").innerHTML = D.pipeline.map((p) => `<div class="step"><h3>${esc(p.label)}</h3><ul>${p.items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+
+  // ---------------- links
+  const streamsSet = [...new Set(all.map((x) => x.stream))];
+  $("f-stream").insertAdjacentHTML("beforeend", streamsSet.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join(""));
+  function drawLinks() {
+    const a = $("f-aud").value, s = $("f-stream").value;
+    $("links").innerHTML = all.filter((x) => (a === "all" || x.aud === a) && (s === "all" || x.stream === s)).map((x) => `<tr>
+      <td>${x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)}${x.note ? `<div class="muted" style="font-size:12.5px">${esc(x.note)}</div>` : ""}</td>
+      <td>${esc(x.stream)}</td><td>${x.aud === "researcher" ? "Researchers" : "Participants"}</td><td>${state(x.status)}</td></tr>`).join("");
+  }
+  $("f-aud").addEventListener("change", drawLinks); $("f-stream").addEventListener("change", drawLinks);
+
+  // ---------------- donation, status, kpis, items
+  $("donation").innerHTML = Object.entries(D.donation_platforms).map(([k, v]) => `<tr><td><b>${esc(k === "chatgpt" ? "ChatGPT" : k === "youtube" ? "YouTube" : k === "tiktok" ? "TikTok" : k[0].toUpperCase() + k.slice(1))}</b></td>
+    <td><a href="${esc(v.request_url)}" target="_blank" rel="noopener">${esc(v.request_url.replace(/^https:\/\//, "").slice(0, 48))}</a><div class="muted" style="font-size:12.5px">${esc(v.format)}</div></td>
+    <td>${esc(v.portal_reads || "")}</td></tr>`).join("");
+  $("status").innerHTML = D.status.map((s) => `<tr><td>${esc(s.item)}</td><td>${state(s.state)}</td><td class="muted">${esc(s.note)}</td></tr>`).join("");
+  const k = r.beta_within != null ? [
+    ["Recovered within-person β", r.beta_within, true], ["Planted β", r.planted], ["Prompt compliance", Math.round(r.mean_compliance * 100) + "%"],
+    ["Valid Fitbit days / burst", r.mean_wear_valid_days], ["Donation rate", Math.round(r.donation_rate * 100) + "%"], ["Person-days", r.days],
+  ] : [["Run python -m digital_days.run --simulate", "—"]];
+  $("kpis").innerHTML = k.map(([l, v, hl]) => `<div class="kpi${hl ? " hl" : ""}"><span class="muted" style="font-size:12.5px">${esc(l)}</span><b>${esc(v)}</b></div>`).join("");
+  $("items").innerHTML = D.ema_items.map((i) => `<tr><td class="mono">${esc(i.instrument)}</td><td class="mono">${esc(i.item_id)}</td><td>${esc(i.text)}</td><td>${state(i.status)}</td></tr>`).join("");
+  $("itemsum").textContent = `Show all ${D.ema_items.length} items`;
+
+  const redraw = () => { drawDay(); drawBursts(); };
+  redraw(); drawLinks();
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+  new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+</body>
+</html>
