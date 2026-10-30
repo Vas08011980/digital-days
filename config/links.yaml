@@ -1,4 +1,4 @@
-# Every link the fast-clock pipeline depends on, in one place.
+# Every link the pipeline depends on, in one place.
 # status: live (works now) | configure (we must set it up) | pending_ethics | placeholder
 # Shown on the pipeline explorer (docs/index.html). Checked 30 Oct 2026.
 

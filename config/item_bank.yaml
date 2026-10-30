@@ -2,7 +2,7 @@
 #
 # status:
 #   published  - item text as published (keep wording; check licence before public release)
-#   adapted    - momentary/daily rewording of a published item; needs WP3 equivalence testing
+#   adapted    - momentary/daily rewording of a published item; needs equivalence testing across bursts
 #   new        - drafted for this study; needs cognitive pretesting in the pilot burst
 # licence:
 #   open       - free for research use with citation
@@ -25,7 +25,7 @@ response_sets:
   yesno:         {type: radio, options: ["Yes", "No"]}
 
 constructs:
-  # construct -> measured by (full scale, momentary form) and the slow-clock anchor it links to
+  # construct -> measured by (full scale, momentary form) and the matching measure in existing longitudinal cohorts (slow_clock_anchor)
   life_satisfaction: {full: SWLS, ema: LS_D, slow_clock_anchor: "MCS/GUI/HILDA life satisfaction; SWLS where available"}
   self_esteem:       {full: RSES, ema: SE_D, slow_clock_anchor: "Rosenberg (MCS, GUI, AStRA)"}
   distress:          {full: DASS21, ema: [MOOD_M, STRESS_M], slow_clock_anchor: "DASS (AStRA); K6/K10 (LSAC, HILDA)"}

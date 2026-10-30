@@ -1,10 +1,9 @@
-# Digital Days — Years and moments, WP2/WP3 fast clock
+# Digital Days — measurement-burst study design
 # Single source of truth for design parameters. Every script reads this file.
 
 study:
   name: "Digital Days"
-  project: "Years and moments: Youth wellbeing across changing digital worlds"
-  work_packages: ["WP2", "WP3"]
+  project: "Digital Days: youth wellbeing in everyday digital life"
   timezone: "Australia/Melbourne"
   day_boundary_hour: 4        # a "study day" runs 04:00-03:59, so 1 a.m. use belongs to the evening before
 
@@ -74,7 +73,7 @@ donation:
   keep_text_from: "participant only"   # AI replies kept only as metadata (length, timestamp)
 
 power:
-  reference: "DSEM Monte Carlo simulation (separate repository, ref 47)"
+  reference: "DSEM Monte Carlo simulation (separate repository)"
   claims:
     daily_effect_min: 0.05
     burst_to_burst_min: 0.20
