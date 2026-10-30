@@ -3,11 +3,7 @@ window.DD_PIPELINE = {
  "built": "2026-10-30",
  "study": {
   "name": "Digital Days",
-  "project": "Years and moments: Youth wellbeing across changing digital worlds",
-  "work_packages": [
-   "WP2",
-   "WP3"
-  ],
+  "project": "Digital Days: youth wellbeing in everyday digital life",
   "timezone": "Australia/Melbourne",
   "day_boundary_hour": 4
  },
@@ -369,9 +365,9 @@ window.DD_PIPELINE = {
    "id": "export",
    "label": "Analyse",
    "items": [
-    "Mplus DSEM .dat files (WP2.1)",
-    "secure AI-text table (WP2.2)",
-    "WP3 burst-to-burst"
+    "Mplus DSEM .dat files (daily within-person models)",
+    "secure AI-text table (language indicators)",
+    "burst-to-burst change"
    ]
   }
  ],
@@ -665,7 +661,7 @@ window.DD_PIPELINE = {
   "mean_wear_valid_days": 12.7,
   "donation_rate": 0.817,
   "beta_within": -0.295,
-  "p": 2.3551021791768466e-16,
+  "p": 2.355102179176812e-16,
   "n_days": 757,
   "planted": -0.3,
   "rotation": {
