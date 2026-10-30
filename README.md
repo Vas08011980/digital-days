@@ -81,7 +81,7 @@ AWARE's own Fitbit plugin is not used: it calls the legacy API.
 
 | Item | Status |
 |---|---|
-| AWARE-Light study configuration (JSON in Configurator import format) | **Built.** Import via configurator.awareframework.com → "Update an existing study". Database host still needed (RMIT ITS). |
+| AWARE-Light study configuration (JSON in Configurator import format) | **Built and import-tested** (30 Oct 2026): configurator.awareframework.com → "Update an existing study" reads all 35 questions, both schedules and the 13 sensor settings. Still needed: RMIT ITS MySQL database (host, INSERT-only account, root credentials for "Initialize database"), then "Download study config" and generate the participant QR. Use only the Configurator's left-hand menu; a page reload clears the imported study. |
 | EMA item bank (35 items; every construct tested for invariance across bursts has ≥3 items) | **Drafted.** Momentary items are *new or adapted*; cognitive pretesting in the pilot burst |
 | Full-scale battery | **Mapped.** Text for SPQ, UAB, Proteus and IGDS9-SF lives in the 2021 battery; add once licences are checked |
 | Problematic AI use scale | **Open decision.** No instrument chosen yet |
