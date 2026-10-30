@@ -34,7 +34,7 @@ ema:
     target_duration_minutes: 1
   evening:
     per_day: 1
-    time: "20:30"
+    time: "20:00"                    # AWARE schedules on whole hours; design and app now agree
     expiry_minutes: 120
     target_duration_minutes: 3
   expected_compliance: 0.60          # 2025 CatholicCare study
