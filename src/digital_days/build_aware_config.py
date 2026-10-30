@@ -13,8 +13,13 @@ Design decisions (privacy-minimal sensing):
   which Google switched off on 2 Nov 2026. Fitbit data are pulled server-side from the
   Google Health API (fitbit_client.py) and joined to AWARE data by study code and timestamp.
 
+Import check (30 Oct 2026): this file was uploaded via configurator.awareframework.com ->
+"Update an existing study"; the Configurator read 35 questions, both schedules and exactly the
+13 settings switched on below. Navigate the Configurator only with its left-hand menu: a page
+reload clears the imported study (it is held in memory, not saved).
+
 Limitations to state in ethics:
-  * AWARE scheduling uses whole hours; the evening report fires at 20:00 (not 20:30).
+  * AWARE scheduling uses whole hours, so the evening report is set to 20:00 in study.yaml.
   * ESM schedules run while the participant is joined to the study; bursts are
     implemented by joining at burst start and leaving at burst end (coordinator
     checklist), or by using a separate EMA app for all participants.
