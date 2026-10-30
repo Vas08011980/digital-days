@@ -1,6 +1,6 @@
 # Digital Days: fast-clock pipeline for *Years and moments*
 
-This is the data pipeline for the WP2–WP3 measurement-burst study. About 400 young adults aged 18–25 take part in four 14-day bursts, six months apart, followed by a final follow-up survey. Five data streams are lined up on one timeline:
+This is the data pipeline for the measurement-burst study. About 400 young adults aged 18–25 take part in four 14-day bursts, six months apart, followed by a final follow-up survey. Five data streams are lined up on one timeline:
 
 | Stream | Tool | Captured | Fallback |
 |---|---|---|---|
@@ -102,7 +102,7 @@ AWARE's own Fitbit plugin is not used: it calls the legacy API.
 
 ## Suggested C1 wording
 
-> The WP2 protocol is specified as executable code (sensor configuration, prompt schedule, item bank, Google Health API and data-donation ingestion, alignment scripts), tested end to end on simulated data that recover a planted within-person effect, and openly versioned³⁹ (Fig. X).
+> The protocol is specified as executable code (sensor configuration, prompt schedule, item bank, Google Health API and data-donation ingestion, alignment scripts), tested end to end on simulated data that recover a planted within-person effect, and openly versioned³⁹ (Fig. X).
 
 Do **not** write "pilot pipeline tested" until the 30-person pilot burst has run.
 
