@@ -77,7 +77,7 @@ AWARE's own Fitbit plugin is not used: it calls the legacy API.
 
 ## Data donation outside the AIO
 
-`docs/donate.html` is a prototype of a direct route. The participant enters their study code, follows the export steps for one platform (taken from `config/donation_instructions.yaml`), and selects the downloaded `.zip`/`.json`. The page parses it **in the browser**, keeps only what the study needs (own AI-chat messages with timestamps; AI replies reduced to time and length; for TikTok, YouTube and Instagram only event times), shows a per-conversation or per-day table where anything can be removed, and saves `digital_days_donation_<source>_<code>.json` (schema `digital-days-donation/1`), which `ingest.donation_portal` reads. The secure upload destination (e.g., a REDCap file field keyed to the study code) is left to configure after ethics. The AIO remains the primary route in the grant.
+`docs/donate.html` is a prototype of a direct route. The participant enters their study code, follows the export steps for one platform (taken from `config/donation_instructions.yaml`), and selects the downloaded `.zip`/`.json`. The page parses it **in the browser**, keeps only what the study needs (own AI-chat messages with timestamps; AI replies reduced to time and length; for TikTok, YouTube and Instagram only event times), shows a per-conversation or per-day table where anything can be removed, and saves `digital_days_donation_<source>_<code>.json` (schema `digital-days-donation/1`), which `ingest.donation_portal` reads. The secure upload destination (e.g., a REDCap file field keyed to the study code) is left to configure after ethics. The AIO remains the primary route.
 
 ## Status
 
