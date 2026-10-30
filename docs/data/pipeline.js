@@ -1,0 +1,672 @@
+window.DD_PIPELINE = {
+ "version": "0.2.0",
+ "built": "2026-10-30",
+ "study": {
+  "name": "Digital Days",
+  "project": "Years and moments: Youth wellbeing across changing digital worlds",
+  "work_packages": [
+   "WP2",
+   "WP3"
+  ],
+  "timezone": "Australia/Melbourne",
+  "day_boundary_hour": 4
+ },
+ "sample": {
+  "enrol_target": 400,
+  "retain_target": 300,
+  "age_range": [
+   18,
+   25
+  ],
+  "quotas": [
+   "gender",
+   "residence",
+   "ses"
+  ],
+  "recruitment_waves": 4
+ },
+ "bursts": {
+  "n": 4,
+  "length_days": 14,
+  "spacing_months": 6,
+  "follow_up_months_after_last": 6
+ },
+ "ema": {
+  "checkins": {
+   "per_day": 3,
+   "window": [
+    "09:00",
+    "21:00"
+   ],
+   "min_gap_minutes": 120,
+   "expiry_minutes": 45,
+   "target_duration_minutes": 1
+  },
+  "evening": {
+   "per_day": 1,
+   "time": "20:30",
+   "expiry_minutes": 120,
+   "target_duration_minutes": 3
+  },
+  "expected_compliance": 0.6
+ },
+ "passive": {
+  "android": {
+   "tool": "AWARE-Light",
+   "version_pinned": "4.2.1",
+   "streams": [
+    "applications_foreground",
+    "screen",
+    "notifications_meta",
+    "battery",
+    "timezone",
+    "esms"
+   ]
+  },
+  "ios": {
+   "tool": "weekly Screen Time upload",
+   "cadence_days": 7,
+   "fields": [
+    "daily_total_minutes",
+    "pickups",
+    "notifications",
+    "top_apps"
+   ]
+  },
+  "wearable": {
+   "device": "Fitbit",
+   "api": "Google Health API v4 (health.googleapis.com)",
+   "api_notes": "Legacy Fitbit Web API support ended 30 Sep 2026 and its endpoints are switched off on 2 Nov 2026 (developers.google.com/health). v4 data types used: sleep (list), steps (dailyRollUp), heart-rate (60 s rollUp -> wear minutes). Heart rate is stored at 1 s and steps at 1 min resolution, so minute-level wear time is available.",
+   "oauth_scopes": [
+    "googlehealth.sleep.readonly",
+    "googlehealth.activity_and_fitness.readonly",
+    "googlehealth.health_metrics_and_measurements.readonly"
+   ],
+   "pull_cadence": "daily during a burst (catch sync gaps early); final pull at burst day 15",
+   "devices_total": 120,
+   "devices_active": 100,
+   "devices_spare": 20,
+   "shipping_buffer_days": 5,
+   "min_wear_hours_valid_day": 10
+  }
+ },
+ "donation": {
+  "routes": {
+   "primary": "Australian Internet Observatory (AIO) data donation (DDPs) - project configured, pending ethics",
+   "direct": "Digital Days donation portal (docs/donate.html): runs in the participant's browser, nothing leaves the device until they press Donate"
+  },
+  "timing": "request exports on burst day 12; donate at burst end (day 14)",
+  "sources": [
+   "tiktok",
+   "youtube",
+   "instagram",
+   "chatgpt",
+   "claude"
+  ],
+  "keep_text_from": "participant only"
+ },
+ "item_counts": {
+  "checkin": 12,
+  "evening": 23,
+  "burst_start": 93
+ },
+ "ema_items": [
+  {
+   "instrument": "MOOD_M",
+   "item_id": "MOOD_M1",
+   "text": "Right now, I feel happy.",
+   "status": "new"
+  },
+  {
+   "instrument": "MOOD_M",
+   "item_id": "MOOD_M2",
+   "text": "Right now, I feel relaxed.",
+   "status": "new"
+  },
+  {
+   "instrument": "MOOD_M",
+   "item_id": "MOOD_M3",
+   "text": "Right now, I feel down.",
+   "status": "new"
+  },
+  {
+   "instrument": "LONE_M",
+   "item_id": "LONE_M1",
+   "text": "Right now, I feel lonely.",
+   "status": "new"
+  },
+  {
+   "instrument": "LONE_M",
+   "item_id": "LONE_M2",
+   "text": "Right now, I feel left out.",
+   "status": "new"
+  },
+  {
+   "instrument": "LONE_M",
+   "item_id": "LONE_M3",
+   "text": "Right now, I feel close to other people.",
+   "status": "new"
+  },
+  {
+   "instrument": "STRESS_M",
+   "item_id": "STRESS_M1",
+   "text": "Right now, I feel stressed.",
+   "status": "new"
+  },
+  {
+   "instrument": "STRESS_M",
+   "item_id": "STRESS_M2",
+   "text": "Right now, I feel overwhelmed.",
+   "status": "new"
+  },
+  {
+   "instrument": "STRESS_M",
+   "item_id": "STRESS_M3",
+   "text": "Right now, I feel on top of things.",
+   "status": "new"
+  },
+  {
+   "instrument": "USE_M",
+   "item_id": "USE_M1",
+   "text": "Since the last check-in, about how many minutes were you online (any device)?",
+   "status": "new"
+  },
+  {
+   "instrument": "USE_M",
+   "item_id": "USE_M2",
+   "text": "What did you mostly do online?",
+   "status": "new"
+  },
+  {
+   "instrument": "USE_M",
+   "item_id": "USE_M3",
+   "text": "Did you use an AI chatbot (e.g., ChatGPT, Claude, Gemini, Snapchat My AI) since the last check-in?",
+   "status": "new"
+  },
+  {
+   "instrument": "SLEEP_D",
+   "item_id": "SLEEP_D1",
+   "text": "How many hours did you sleep last night?",
+   "status": "new"
+  },
+  {
+   "instrument": "SLEEP_D",
+   "item_id": "SLEEP_D2",
+   "text": "How well did you sleep last night?",
+   "status": "new"
+  },
+  {
+   "instrument": "MOOD_D",
+   "item_id": "MOOD_D1",
+   "text": "Overall today, I felt happy.",
+   "status": "new"
+  },
+  {
+   "instrument": "MOOD_D",
+   "item_id": "MOOD_D2",
+   "text": "Overall today, I felt relaxed.",
+   "status": "new"
+  },
+  {
+   "instrument": "MOOD_D",
+   "item_id": "MOOD_D3",
+   "text": "Overall today, I felt down.",
+   "status": "new"
+  },
+  {
+   "instrument": "LS_D",
+   "item_id": "LS_D1",
+   "text": "Today, my life was close to how I want it to be.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "LS_D",
+   "item_id": "LS_D2",
+   "text": "Today, I was satisfied with my life.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "LS_D",
+   "item_id": "LS_D3",
+   "text": "Today, I got the things that matter to me.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "SE_D",
+   "item_id": "SE_D1",
+   "text": "Today, I was satisfied with myself.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "SE_D",
+   "item_id": "SE_D2",
+   "text": "Today, I felt like a person of worth.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "SE_D",
+   "item_id": "SE_D3",
+   "text": "Today, I felt useless at times.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "AI_D",
+   "item_id": "AI_D1",
+   "text": "Today, about how many minutes did you spend talking with AI chatbots?",
+   "status": "new"
+  },
+  {
+   "instrument": "AI_D",
+   "item_id": "AI_D2",
+   "text": "What did you use AI for today? (tick all that apply)",
+   "status": "new"
+  },
+  {
+   "instrument": "AI_D",
+   "item_id": "AI_D3",
+   "text": "Today, talking with AI felt easier than talking with people.",
+   "status": "new"
+  },
+  {
+   "instrument": "PRES_D",
+   "item_id": "PRES_D1",
+   "text": "Today, when online, I felt I was really 'there'.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "PRES_D",
+   "item_id": "PRES_D2",
+   "text": "Today, the online world felt real to me.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "PRES_D",
+   "item_id": "PRES_D3",
+   "text": "Today, when online, I lost track of my surroundings.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "FLOW_D",
+   "item_id": "FLOW_D1",
+   "text": "Today, when online, I was totally absorbed in what I was doing.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "FLOW_D",
+   "item_id": "FLOW_D2",
+   "text": "Today, time flew when I was online.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "FLOW_D",
+   "item_id": "FLOW_D3",
+   "text": "Today, what I did online was a positive challenge.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "SREP_D",
+   "item_id": "SREP_D1",
+   "text": "Today, my online self (profile, avatar or persona) felt like part of me.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "SREP_D",
+   "item_id": "SREP_D2",
+   "text": "Today, how I came across online affected how I felt offline.",
+   "status": "adapted"
+  },
+  {
+   "instrument": "SREP_D",
+   "item_id": "SREP_D3",
+   "text": "Today, I would rather have been like my online self.",
+   "status": "adapted"
+  }
+ ],
+ "pipeline": [
+  {
+   "id": "collect",
+   "label": "Collect",
+   "items": [
+    "AWARE-Light (Android)",
+    "EMA app (all phones)",
+    "iOS Screen Time upload",
+    "Fitbit -> Google Health API",
+    "Donations: AIO or portal"
+   ]
+  },
+  {
+   "id": "ingest",
+   "label": "Ingest (ingest.py)",
+   "items": [
+    "ESM -> prompt instances",
+    "screen sessions + app episodes",
+    "Google Health v4 sleep/steps/wear",
+    "DDP parsers (participant text only)"
+   ]
+  },
+  {
+   "id": "align",
+   "label": "Align (align.py)",
+   "items": [
+    "study day 04:00-03:59",
+    "moments within days within bursts within persons",
+    "lag-1 within-person predictors",
+    "donor zero vs missing"
+   ]
+  },
+  {
+   "id": "qc",
+   "label": "QC (qc.py)",
+   "items": [
+    "compliance",
+    "straight-lining",
+    "Fitbit wear >= 10 h",
+    "passive coverage",
+    "donation receipt"
+   ]
+  },
+  {
+   "id": "export",
+   "label": "Analyse",
+   "items": [
+    "Mplus DSEM .dat files (WP2.1)",
+    "secure AI-text table (WP2.2)",
+    "WP3 burst-to-burst"
+   ]
+  }
+ ],
+ "status": [
+  {
+   "item": "AWARE-Light configuration",
+   "state": "built",
+   "note": "JSON in Configurator import format; DB host from RMIT ITS still needed"
+  },
+  {
+   "item": "EMA item bank",
+   "state": "drafted",
+   "note": "Momentary items new/adapted; cognitive pretesting in the pilot burst"
+  },
+  {
+   "item": "Fitbit via Google Health API v4",
+   "state": "built",
+   "note": "Client written against the v4 discovery document; needs RMIT Google Cloud project, OAuth client and scope verification"
+  },
+  {
+   "item": "Legacy Fitbit Web API",
+   "state": "retired",
+   "note": "Switched off by Google on 2 Nov 2026; reader kept for earlier backfills only"
+  },
+  {
+   "item": "Donation via AIO",
+   "state": "pending ethics",
+   "note": "Project configured on the AIO platform"
+  },
+  {
+   "item": "Donation portal (outside AIO)",
+   "state": "prototype",
+   "note": "Runs in the participant's browser; upload destination to be configured after ethics"
+  },
+  {
+   "item": "Instagram raw-DDP parser",
+   "state": "open",
+   "note": "Portal route works; raw parser waits on AIO processed format"
+  },
+  {
+   "item": "Problematic AI use scale",
+   "state": "open decision",
+   "note": "No instrument chosen yet"
+  },
+  {
+   "item": "Ethics",
+   "state": "not submitted",
+   "note": "RMIT, Northern Health, CatholicCare"
+  }
+ ],
+ "links": {
+  "researcher": [
+   {
+    "stream": "EMA + phone use",
+    "label": "AWARE Configurator (create / update study, import JSON)",
+    "url": "https://configurator.awareframework.com",
+    "status": "configure",
+    "note": "Update an existing study -> upload build/aware/aware_light_study_config.json; enter DB host from RMIT ITS"
+   },
+   {
+    "stream": "EMA + phone use",
+    "label": "AWARE Configurator source (import format reference)",
+    "url": "https://github.com/awareframework/AWARE-Configurator",
+    "status": "live"
+   },
+   {
+    "stream": "EMA + phone use",
+    "label": "AWARE framework documentation",
+    "url": "https://awareframework.com",
+    "status": "live"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Google Health API (successor to the Fitbit Web API)",
+    "url": "https://developers.google.com/health",
+    "status": "live"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Google Health API REST reference (v4)",
+    "url": "https://developers.google.com/health/reference/rest",
+    "status": "live"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Google Health API data types and scopes",
+    "url": "https://developers.google.com/health/data-types",
+    "status": "live"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Fitbit Web API migration guide",
+    "url": "https://developers.google.com/health/migration",
+    "status": "live"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Google Cloud console (project, enable API, OAuth client)",
+    "url": "https://console.cloud.google.com/apis/library",
+    "status": "configure",
+    "note": "RMIT Google Cloud project -> enable Google Health API -> OAuth consent screen -> web client; sensitive health scopes need Google verification"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Google Health API research pledge",
+    "url": "https://developers.google.com/health/policies/health-api-research-pledge",
+    "status": "configure"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Health API user data and research policy",
+    "url": "https://developers.google.com/health/policies/health-api-user-data-and-research-policy",
+    "status": "live"
+   },
+   {
+    "stream": "Donation",
+    "label": "Australian Internet Observatory (AIO) data donation",
+    "url": "https://internetobservatory.org.au",
+    "status": "pending_ethics",
+    "note": "Project configured on the AIO; activate after RMIT HREC approval"
+   },
+   {
+    "stream": "Analysis",
+    "label": "Code repository",
+    "url": "https://github.com/Vas08011980/digital-days",
+    "status": "live"
+   }
+  ],
+  "participant": [
+   {
+    "stream": "EMA + phone use",
+    "label": "Install AWARE-Light (Android APK; not on the Play Store)",
+    "url": "https://awareframework.com/downloads/",
+    "status": "live",
+    "note": "Pin AWARE-Light 4.2.1 for the whole study; join via the study QR code from the Configurator"
+   },
+   {
+    "stream": "EMA + phone use",
+    "label": "Join study (QR / link from AWARE Configurator)",
+    "url": "",
+    "status": "placeholder"
+   },
+   {
+    "stream": "Phone use (iOS)",
+    "label": "Weekly Screen Time upload form (REDCap/Qualtrics)",
+    "url": "",
+    "status": "placeholder"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Link your study Fitbit (Google sign-in consent)",
+    "url": "",
+    "status": "configure",
+    "note": "Generated per participant: python -m digital_days.fitbit_client auth-url <study code>"
+   },
+   {
+    "stream": "Wearable",
+    "label": "Google Health app (pair the study Fitbit)",
+    "url": "https://play.google.com/store/search?q=google%20health&c=apps",
+    "status": "live",
+    "note": "Fitbit devices sync only with the Google Health app; check exact store listing in the pilot"
+   },
+   {
+    "stream": "Donation",
+    "label": "Digital Days donation portal (direct route)",
+    "url": "donate.html",
+    "status": "live",
+    "note": "Prototype; upload destination to be configured after ethics"
+   },
+   {
+    "stream": "Donation",
+    "label": "Request Instagram data",
+    "url": "https://accountscenter.instagram.com/info_and_permissions/",
+    "status": "live"
+   },
+   {
+    "stream": "Donation",
+    "label": "Request TikTok data",
+    "url": "https://support.tiktok.com/en/account-and-privacy/personalized-ads-and-data/requesting-your-data",
+    "status": "live"
+   },
+   {
+    "stream": "Donation",
+    "label": "Request YouTube history (Google Takeout)",
+    "url": "https://takeout.google.com/",
+    "status": "live"
+   },
+   {
+    "stream": "Donation",
+    "label": "Export ChatGPT data",
+    "url": "https://chatgpt.com/#settings/DataControls",
+    "status": "live"
+   },
+   {
+    "stream": "Donation",
+    "label": "Export Claude data",
+    "url": "https://claude.ai/settings/data-privacy-controls",
+    "status": "live"
+   }
+  ]
+ },
+ "donation_platforms": {
+  "instagram": {
+   "request_url": "https://accountscenter.instagram.com/info_and_permissions/",
+   "steps": [
+    "Go to https://accountscenter.instagram.com/info_and_permissions/",
+    "Click 'Export your information', then 'Create export'",
+    "Select the account you want to export (if you have more than one)",
+    "Choose 'Export to device'",
+    "Set: Customise information -> 'All available information'; Date range -> 'All time'; Format -> 'JSON'; Media quality -> 'Lower quality'",
+    "Click 'Start export'"
+   ],
+   "format": "JSON (zip)",
+   "portal_reads": "your_instagram_activity/**/*.json - timestamps of likes, comments, saved posts, posts viewed (no media, no message text)",
+   "source": "AIO instructions supplied by the project team (Oct 2026)"
+  },
+  "tiktok": {
+   "request_url": "https://support.tiktok.com/en/account-and-privacy/personalized-ads-and-data/requesting-your-data",
+   "steps": [
+    "In the TikTok app go to Profile -> Menu (top right) -> Settings and privacy -> Account -> 'Download your data'",
+    "Choose the data to include ('All data' is fine) and select the file format 'JSON'",
+    "Tap 'Request data'. Preparing the file can take a few days; TikTok notifies you when it is ready",
+    "Download it from the same screen (the file is available for about four days)"
+   ],
+   "format": "JSON (user_data_tiktok.json, inside a zip)",
+   "portal_reads": "Watch History -> VideoList dates only (video links are dropped)",
+   "source": "TechCrunch, 17 Jan 2025; TikTok support page above (verify)"
+  },
+  "youtube": {
+   "request_url": "https://takeout.google.com/",
+   "steps": [
+    "Go to https://takeout.google.com/ and sign in with the Google account you use for YouTube",
+    "Click 'Deselect all', then tick 'YouTube and YouTube Music'",
+    "Click 'All YouTube data included', untick everything except 'history', click OK",
+    "Click 'Multiple formats' and set History to 'JSON'",
+    "Click 'Next step', keep 'Send download link via email', file type '.zip', then 'Create export'",
+    "Download from the email link (valid about 7 days)"
+   ],
+   "format": "JSON (Takeout/YouTube and YouTube Music/history/watch-history.json, search-history.json)",
+   "portal_reads": "watch-history.json times only (titles and links are dropped)",
+   "note": "If the channel belongs to a Brand Account, switch to it before exporting.",
+   "source": "takeoutday.org guide (third party; verify against support.google.com)"
+  },
+  "chatgpt": {
+   "request_url": "https://chatgpt.com/#settings/DataControls",
+   "steps": [
+    "Sign in at https://chatgpt.com on a computer or phone browser",
+    "Open Settings -> 'Data controls' -> 'Export data' -> 'Confirm export'",
+    "You will receive an email; click 'Download data export' within 24 hours to get a .zip file"
+   ],
+   "format": "zip with chat.html and conversations.json (the parser uses conversations.json)",
+   "portal_reads": "conversations.json - your messages (text + time) and the time/length of each AI reply; AI reply text is dropped",
+   "source": "OpenAI Help Center article 7260999 (page dated 2023; verify current menu)"
+  },
+  "claude": {
+   "request_url": "https://claude.ai/settings/data-privacy-controls",
+   "steps": [
+    "Sign in at https://claude.ai (web or Claude Desktop; not available in the mobile apps)",
+    "Go to Settings -> Privacy and click 'Export data'",
+    "You will receive an email with a download link; open it within 24 hours while signed in"
+   ],
+   "format": "zip with conversations.json",
+   "portal_reads": "conversations.json - your messages (text + time) and the time/length of each AI reply; AI reply text is dropped",
+   "note": "Team/Enterprise accounts can export only if the organisation owner allows it.",
+   "source": "Anthropic support article 9450526"
+  }
+ },
+ "consent_screen": [
+  "You can look through your file and remove anything before you share it.",
+  "From AI chats we keep only what YOU wrote, plus the time of each message; the AI's replies are reduced to length and time.",
+  "We do not read your files in real time. You can withdraw your donation at any time before analysis."
+ ],
+ "direct_portal": {
+  "page": "docs/donate.html",
+  "steps": [
+   "Open the donation page from the link in your burst-end SMS/email and enter your study code (e.g., DD1A2B3C4D)",
+   "Choose the platform and select the .zip (or .json) file you downloaded - it is opened on your device, not uploaded",
+   "Review the summary and the table of what will be shared; untick any conversation or day you want to remove",
+   "Press 'Download donation file', then upload that file at the secure RMIT link shown on the page"
+  ],
+  "upload_target": "TO-BE-CONFIGURED: RMIT secure upload (e.g., REDCap file-upload field keyed to the study code, or a SharePoint/OneDrive file request). Must be approved by ethics before use.",
+  "output_schema": "digital-days-donation/1 (see ingest.donation_portal)"
+ },
+ "recovery": {
+  "moments": 5040,
+  "days": 1680,
+  "persons": 60,
+  "person_bursts": 120,
+  "mean_compliance": 0.594,
+  "low_compliance_share": 0.033,
+  "mean_wear_valid_days": 12.7,
+  "donation_rate": 0.817,
+  "beta_within": -0.295,
+  "p": 2.3551021791768466e-16,
+  "n_days": 757,
+  "planted": -0.3
+ }
+};
