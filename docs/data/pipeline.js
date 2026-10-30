@@ -44,7 +44,7 @@ window.DD_PIPELINE = {
   },
   "evening": {
    "per_day": 1,
-   "time": "20:30",
+   "time": "20:00",
    "expiry_minutes": 120,
    "target_duration_minutes": 3
   },
@@ -667,6 +667,15 @@ window.DD_PIPELINE = {
   "beta_within": -0.295,
   "p": 2.3551021791768466e-16,
   "n_days": 757,
-  "planted": -0.3
+  "planted": -0.3,
+  "rotation": {
+   "participants": 400,
+   "active_devices": 100,
+   "spares": 20,
+   "cohorts_per_round": 4,
+   "days_per_round": 71,
+   "fits_in_gap": true,
+   "device_overlap": false
+  }
  }
 };
