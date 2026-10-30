@@ -8,8 +8,11 @@ A known within-person effect is planted:
 Simplifications (documented, not hidden):
   * every participant answers EMA through the AWARE ESM format (in the real study iOS users
     use the cross-platform EMA app, whose export is mapped to the same long format);
-  * Fitbit JSON mimics the legacy Web API v1.2 sleep and steps formats;
-  * donation files contain only the fields the parsers read.
+  * Fitbit files mimic Google Health API v4 responses (sleep list, steps dailyRollUp, and the
+    per-day wear-minute counts the client derives from heart-rate rollUp); fitbit_api="legacy"
+    writes the old Fitbit Web API v1.2 shapes instead;
+  * donation files contain only the fields the parsers read; Instagram arrives as a
+    portal-minimised file (docs/donate.html), the others as raw DDPs.
 """
 from __future__ import annotations
 
@@ -30,7 +33,31 @@ def _ms(ts: pd.Timestamp) -> int:
     return int(ts.tz_convert("UTC").value // 1_000_000)
 
 
-def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027) -> Path:
+def _civil(ts: pd.Timestamp) -> dict:
+    return {"date": {"year": ts.year, "month": ts.month, "day": ts.day},
+            "time": {"hours": ts.hour, "minutes": ts.minute}}
+
+
+def _offset(ts: pd.Timestamp) -> str:
+    return f"{int(ts.utcoffset().total_seconds())}s"
+
+
+def gh_sleep_point(start: pd.Timestamp, end: pd.Timestamp, asleep: int) -> dict:
+    """One Google Health API v4 sleep data point (fields as in the v4 discovery document)."""
+    period = int((end - start).total_seconds() // 60)
+    return {"sleep": {
+        "interval": {"startTime": start.tz_convert("UTC").isoformat().replace("+00:00", "Z"),
+                     "endTime": end.tz_convert("UTC").isoformat().replace("+00:00", "Z"),
+                     "startUtcOffset": _offset(start), "endUtcOffset": _offset(end),
+                     "civilStartTime": _civil(start), "civilEndTime": _civil(end)},
+        "type": "STAGES",
+        "metadata": {"processed": True, "mainSleep": True, "nap": False, "stagesStatus": "SUCCEEDED"},
+        "summary": {"minutesAsleep": str(asleep), "minutesInSleepPeriod": str(period),
+                    "minutesAwake": str(period - asleep)}},
+        "dataSource": {"platform": "FITBIT", "recordingMethod": "PASSIVELY_MEASURED"}}
+
+
+def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027, fitbit_api: str = "google_health") -> Path:
     rng = np.random.default_rng(seed)
     s = study()
     out = Path(out)
@@ -54,17 +81,15 @@ def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027) -> Path:
         pid = f"P{i+1:03d}"
         android = rng.random() < 0.55
         dev = f"dev-{i:04d}"
-        if android:
-            devices.append({"device_id": dev, "label": pid})
-        else:
-            devices.append({"device_id": dev, "label": pid})   # EMA still flows through the same format
+        devices.append({"device_id": dev, "label": pid})   # iOS: EMA still flows through the same format
         person_mood = rng.normal(0, 0.8)
         late_rate = rng.gamma(1.2, 1.5)          # person's typical late-night AI messages
         compliance = np.clip(rng.beta(6, 4), 0.2, 0.95)
         sleep_mean = rng.normal(430, 40)
         steps_mean = rng.normal(8000, 2500)
         sleeps, steps, hr = [], [], {}
-        convs_gpt, convs_claude, tiktok, yt = [], [], [], []
+        gh_sleep, gh_steps = [], []
+        convs_gpt, convs_claude, tiktok, yt, insta = [], [], [], [], []
         for _, b in sched[sched["pid"] == pid].iterrows():
             days = pd.date_range(b["start"], b["end"], freq="D")
             late_prev = None
@@ -125,6 +150,8 @@ def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027) -> Path:
                     tiktok.append(day0 + pd.Timedelta(minutes=int(rng.integers(8 * 60, 26 * 60))))
                 for _ in range(rng.poisson(6)):
                     yt.append(day0 + pd.Timedelta(minutes=int(rng.integers(8 * 60, 24 * 60))))
+                for _ in range(rng.poisson(10)):
+                    insta.append(day0 + pd.Timedelta(minutes=int(rng.integers(8 * 60, 24 * 60))))
                 # --- phone sensing (Android only)
                 if android:
                     for _ in range(rng.poisson(25)):
@@ -139,11 +166,17 @@ def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027) -> Path:
                 # --- Fitbit (sleep ending on day d)
                 if rng.random() < 0.9:
                     mins = int(rng.normal(sleep_mean, 45))
+                    wake = day0 + pd.Timedelta(hours=7)
+                    bed = wake - pd.Timedelta(minutes=mins + int(rng.integers(20, 60)))
+                    gh_sleep.append(gh_sleep_point(bed, wake, mins))
                     sleeps.append({"dateOfSleep": str(d.date()), "isMainSleep": True, "minutesAsleep": mins,
                                    "efficiency": int(np.clip(rng.normal(90, 4), 60, 100)),
-                                   "startTime": str((day0 - pd.Timedelta(minutes=mins + 60)).isoformat()),
-                                   "endTime": str((day0 + pd.Timedelta(hours=7)).isoformat())})
-                    steps.append({"dateTime": str(d.date()), "value": str(int(max(0, rng.normal(steps_mean, 2000))))})
+                                   "startTime": str(bed.isoformat()), "endTime": str(wake.isoformat())})
+                    n_steps = int(max(0, rng.normal(steps_mean, 2000)))
+                    gh_steps.append({"civilStartTime": {"date": {"year": d.year, "month": d.month, "day": d.day}},
+                                     "civilEndTime": _civil(day0 + pd.Timedelta(days=1)),
+                                     "steps": {"countSum": str(n_steps)}})
+                    steps.append({"dateTime": str(d.date()), "value": str(n_steps)})
                     hr[str(d.date())] = int(np.clip(rng.normal(20 * 60, 180), 0, 1440))
             if not android:
                 for wk in pd.date_range(b["start"], b["end"], freq="7D"):
@@ -152,12 +185,17 @@ def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027) -> Path:
         # write per-person files
         fdir = out / "fitbit" / pid
         fdir.mkdir(parents=True, exist_ok=True)
-        (fdir / "sleep.json").write_text(json.dumps({"sleep": sleeps}))
-        (fdir / "steps.json").write_text(json.dumps({"activities-steps": steps}))
-        (fdir / "hr_minutes.json").write_text(json.dumps(hr))
+        if fitbit_api == "legacy":
+            (fdir / "sleep.json").write_text(json.dumps({"sleep": sleeps}))
+            (fdir / "steps.json").write_text(json.dumps({"activities-steps": steps}))
+            (fdir / "hr_minutes.json").write_text(json.dumps(hr))
+        else:   # Google Health API v4 (newest-first ordering, as the list endpoint returns it)
+            (fdir / "gh_sleep.json").write_text(json.dumps({"dataPoints": gh_sleep[::-1]}))
+            (fdir / "gh_steps_daily.json").write_text(json.dumps({"rollupDataPoints": gh_steps}))
+            (fdir / "gh_wear_minutes.json").write_text(json.dumps(hr))
         if rng.random() < 0.8:  # donors
             ddir = out / "donations" / pid
-            for src in ("chatgpt", "claude", "tiktok", "youtube"):
+            for src in ("chatgpt", "claude", "tiktok", "youtube", "instagram"):
                 (ddir / src).mkdir(parents=True, exist_ok=True)
             mapping = {}
             for j, m in enumerate(convs_gpt):
@@ -177,6 +215,9 @@ def run(out: Path, n: int = 60, n_bursts: int = 2, seed: int = 2027) -> Path:
                     {"Date": t.tz_convert("UTC").strftime("%Y-%m-%d %H:%M:%S"), "Link": "https://www.tiktok.com/"} for t in tiktok]}}}))
             (ddir / "youtube" / "watch-history.json").write_text(json.dumps(
                 [{"header": "YouTube", "title": "Watched a video", "time": t.tz_convert("UTC").isoformat()} for t in yt]))
+            (ddir / "instagram" / "digital_days_donation_instagram.json").write_text(json.dumps(
+                {"schema": "digital-days-donation/1", "source": "instagram", "records": [
+                    {"ts": t.tz_convert("UTC").isoformat(), "kind": "view"} for t in insta]}))
 
     pd.DataFrame(devices).to_csv(out / "aware" / "aware_device.csv", index=False)
     pd.DataFrame(esms).to_csv(out / "aware" / "esms.csv", index=False)

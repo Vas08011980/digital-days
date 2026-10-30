@@ -9,6 +9,9 @@ Design decisions (privacy-minimal sensing):
        battery (for data-loss diagnostics), timezone, ESM, webservice upload
   OFF: keyboard, screen text, touch text, calls/messages, location, motion sensors,
        screenshots, microphone - none is needed to answer Aims 2-3.
+  Fitbit is NOT collected through AWARE: AWARE's Fitbit plugin calls the legacy Fitbit Web API,
+  which Google switched off on 2 Nov 2026. Fitbit data are pulled server-side from the
+  Google Health API (fitbit_client.py) and joined to AWARE data by study code and timestamp.
 
 Limitations to state in ethics:
   * AWARE scheduling uses whole hours; the evening report fires at 20:00 (not 20:30).

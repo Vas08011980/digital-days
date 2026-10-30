@@ -6,8 +6,8 @@
 Folder layout expected under --raw:
   aware/{aware_device,esms,screen,applications_foreground}.csv
   ios/screentime_uploads.csv
-  fitbit/<pid>/{sleep,steps,hr_minutes}.json
-  donations/<pid>/{chatgpt,claude,tiktok,youtube}/<export files>
+  fitbit/<pid>/gh_{sleep,steps_daily,wear_minutes}.json   (Google Health API v4; legacy sleep/steps/hr_minutes.json also read)
+  donations/<pid>/{chatgpt,claude,tiktok,youtube,instagram}/<raw DDP files or digital_days_donation_<source>.json>
   bursts.csv  (pid, burst, start, end)
 """
 from __future__ import annotations
@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from . import align, build_aware_config, export_forms, ingest, qc, rotation, simulate
+from . import align, build_aware_config, build_site, export_forms, ingest, qc, rotation, simulate
 from .common import ROOT
 
 
@@ -68,7 +68,7 @@ def mplus_export(moments: pd.DataFrame, days: pd.DataFrame, out: Path) -> None:
         d = df[["pid"] + cols].copy()
         d.insert(0, "id", d.pop("pid").map(pid_num))
         d.apply(pd.to_numeric, errors="coerce").fillna(-999).to_csv(out / f"mplus_{name}.dat", sep=" ",
-                                                                       header=False, index=False, float_format="%.4f")
+                                                                    header=False, index=False, float_format="%.4f")
         (out / f"mplus_{name}_names.txt").write_text("NAMES = " + " ".join(["id"] + cols) + ";\nMISSING = ALL(-999);\n")
 
 
@@ -105,6 +105,7 @@ def main():
         rc = recovery_check(pd.read_csv(Path(a.out) / "days.csv"))
         print("Recovery check:", rc)
         (Path(a.out) / "recovery_check.json").write_text(json.dumps({**res, **rc}, indent=2, default=str))
+        build_site.main(recovery={**res, **rc, "rotation": rot})
 
 
 if __name__ == "__main__":

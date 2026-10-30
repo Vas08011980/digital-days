@@ -21,7 +21,7 @@ def draw(path_stem=None):
     fig, ax = plt.subplots(figsize=(7.1, 2.9), dpi=300)
     bursts = [13, 19, 25, 31]          # project month each burst round opens (staggered over ~2.5 months)
     stagger = 2.4
-    lanes = ["Full scales", "EMA prompts", "Phone use", "Fitbit", "Donation (AIO)"]
+    lanes = ["Full scales", "EMA prompts", "Phone use", "Fitbit", "Donation"]
     y = {name: len(lanes) - i for i, name in enumerate(lanes)}
     h = 0.62
 
@@ -45,9 +45,9 @@ def draw(path_stem=None):
         ax.add_patch(Rectangle((m, y["Fitbit"] - h / 2), stagger, h, color=LIGHT, lw=0))
         # donation at burst end, reaching back over the preceding gap
         end = m + stagger
-        ax.plot(end, y["Donation (AIO)"], marker="v", ms=5, color=INK)
+        ax.plot(end, y["Donation"], marker="v", ms=5, color=INK)
         back = bursts[k - 1] + stagger if k else m - 2.5
-        arr = FancyArrowPatch((end, y["Donation (AIO)"] - 0.18), (back, y["Donation (AIO)"] - 0.18),
+        arr = FancyArrowPatch((end, y["Donation"] - 0.18), (back, y["Donation"] - 0.18),
                               arrowstyle="-|>", mutation_scale=6, color=MID, lw=0.7, linestyle=(0, (2, 1.5)))
         ax.add_patch(arr)
 
@@ -58,8 +58,8 @@ def draw(path_stem=None):
     notes = {
         "EMA prompts": "3 × ~1-min check-ins + ~3-min evening report, 14 days",
         "Phone use": "Android: AWARE-Light logging  |  iOS: weekly Screen Time",
-        "Fitbit": "sleep, steps; 100 devices rotate across 4 staggered cohorts",
-        "Donation (AIO)": "TikTok, YouTube, Instagram, ChatGPT, Claude: back-fills gaps",
+        "Fitbit": "sleep, steps, wear (Google Health API); 100 devices rotate",
+        "Donation": "TikTok, YouTube, Instagram, ChatGPT, Claude (AIO or portal)",
         "Full scales": "life satisfaction, self-esteem, distress, problematic use, presence/flow/self-rep.",
     }
     for lane, txt in notes.items():

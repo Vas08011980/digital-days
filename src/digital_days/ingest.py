@@ -6,9 +6,13 @@ Raw inputs are read from data/raw/<stream>/ (never committed; see .gitignore).
 Sources and their native formats
   AWARE-Light   MySQL tables exported as CSV: esms, screen, applications_foreground, aware_device
   iOS           weekly Screen Time upload (form fields transcribed from the participant's screenshot)
-  Fitbit        Fitbit Web API / Google Health API JSON pulled by fitbit_client.py, or Fitabase CSV exports
-  Donations     data download packages (DDPs) as received via the AIO: ChatGPT and Claude
-                conversations.json, TikTok user_data JSON, YouTube (Google Takeout) watch-history.json
+  Fitbit        Google Health API v4 JSON (gh_*.json) pulled by fitbit_client.py; legacy Fitbit Web API
+                JSON (sleep/steps/hr_minutes.json) for data pulled before the 2 Nov 2026 shutdown;
+                or Fitabase CSV exports
+  Donations     data download packages (DDPs) received via the AIO or the direct donation portal
+                (docs/donate.html): ChatGPT and Claude conversations.json, TikTok user_data JSON,
+                YouTube (Google Takeout) watch-history.json, or the portal's minimised
+                digital_days_donation_<source>.json
 """
 from __future__ import annotations
 
@@ -119,34 +123,82 @@ def ios_screentime(uploads: pd.DataFrame) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------- Fitbit
-def fitbit_daily(raw_dir: Path) -> pd.DataFrame:
-    """Read per-participant Fitbit JSON pulled by fitbit_client.py into daily rows.
+def _civil_date(cdt: dict):
+    d = (cdt or {}).get("date") or {}
+    return pd.Timestamp(year=int(d["year"]), month=int(d["month"]), day=int(d["day"])).date()
 
-    raw_dir/<pid>/sleep.json   Fitbit sleep log list (v1.2 format)
-    raw_dir/<pid>/steps.json   activities-steps daily series
-    raw_dir/<pid>/hr_minutes.json (optional) minutes with heart-rate data per day -> wear time
+
+def google_health_days(pdir: Path) -> dict:
+    """Google Health API v4 files written by fitbit_client.GoogleHealthAPI -> {date: {...}}.
+
+    gh_sleep.json        {"dataPoints": [{"sleep": {...}}]}   (list endpoint, all pages merged)
+    gh_steps_daily.json  {"rollupDataPoints": [...]}          (dailyRollUp, civil days)
+    gh_wear_minutes.json {"YYYY-MM-DD": minutes}               (minutes with a heart-rate reading,
+                                                               from 60 s rollUp windows per local day)
+    Sleep is dated by its civil END date (the wake date), matching legacy `dateOfSleep`.
+    v4 has no sleep-efficiency field; it is derived as minutesAsleep / minutesInSleepPeriod.
+    """
+    day: dict = {}
+    f = pdir / "gh_sleep.json"
+    if f.exists():
+        for dp in json.loads(f.read_text()).get("dataPoints", []):
+            s = dp.get("sleep") or {}
+            meta = s.get("metadata") or {}
+            if meta.get("nap") or meta.get("mainSleep") is False:
+                continue
+            iv, summ = s.get("interval") or {}, s.get("summary") or {}
+            asleep = float(summ.get("minutesAsleep", "nan"))
+            period = float(summ.get("minutesInSleepPeriod", "nan"))
+            day.setdefault(_civil_date(iv.get("civilEndTime")), {}).update(
+                sleep_min=asleep, sleep_eff=round(100 * asleep / period) if period > 0 else np.nan,
+                sleep_start=iv.get("startTime"), sleep_end=iv.get("endTime"))
+    f = pdir / "gh_steps_daily.json"
+    if f.exists():
+        for r in json.loads(f.read_text()).get("rollupDataPoints", []):
+            if "steps" in r:
+                day.setdefault(_civil_date(r.get("civilStartTime")), {})["steps"] = int(r["steps"].get("countSum", 0))
+    f = pdir / "gh_wear_minutes.json"
+    if f.exists():
+        for d, m in json.loads(f.read_text()).items():
+            day.setdefault(pd.Timestamp(d).date(), {})["wear_hours"] = m / 60
+    return day
+
+
+def legacy_fitbit_days(pdir: Path) -> dict:
+    """Legacy Fitbit Web API files (sleep v1.2, activities-steps, intraday HR minute counts)."""
+    day: dict = {}
+    if (pdir / "sleep.json").exists():
+        for s in json.loads((pdir / "sleep.json").read_text())["sleep"]:
+            if not s.get("isMainSleep", True):
+                continue
+            d = pd.Timestamp(s["dateOfSleep"]).date()
+            day.setdefault(d, {}).update(sleep_min=s["minutesAsleep"], sleep_eff=s.get("efficiency"),
+                                         sleep_start=s["startTime"], sleep_end=s["endTime"])
+    if (pdir / "steps.json").exists():
+        for s in json.loads((pdir / "steps.json").read_text())["activities-steps"]:
+            day.setdefault(pd.Timestamp(s["dateTime"]).date(), {})["steps"] = int(s["value"])
+    if (pdir / "hr_minutes.json").exists():
+        for d, m in json.loads((pdir / "hr_minutes.json").read_text()).items():
+            day.setdefault(pd.Timestamp(d).date(), {})["wear_hours"] = m / 60
+    return day
+
+
+def fitbit_daily(raw_dir: Path) -> pd.DataFrame:
+    """Per-participant wearable files -> daily rows (pid, study_day, sleep_min, sleep_eff, steps, wear_hours).
+
+    Google Health API v4 files take precedence; legacy files fill dates v4 does not cover
+    (e.g., backfills pulled before the legacy API was switched off on 2 Nov 2026).
     """
     rows = []
     for pdir in sorted(Path(raw_dir).glob("*")):
         if not pdir.is_dir():
             continue
-        pid = pdir.name
-        day = {}
-        if (pdir / "sleep.json").exists():
-            for s in json.loads((pdir / "sleep.json").read_text())["sleep"]:
-                if not s.get("isMainSleep", True):
-                    continue
-                d = pd.Timestamp(s["dateOfSleep"]).date()
-                day.setdefault(d, {}).update(sleep_min=s["minutesAsleep"], sleep_eff=s.get("efficiency"),
-                                             sleep_start=s["startTime"], sleep_end=s["endTime"])
-        if (pdir / "steps.json").exists():
-            for s in json.loads((pdir / "steps.json").read_text())["activities-steps"]:
-                day.setdefault(pd.Timestamp(s["dateTime"]).date(), {})["steps"] = int(s["value"])
-        if (pdir / "hr_minutes.json").exists():
-            for d, m in json.loads((pdir / "hr_minutes.json").read_text()).items():
-                day.setdefault(pd.Timestamp(d).date(), {})["wear_hours"] = m / 60
+        day = legacy_fitbit_days(pdir)
+        for d, v in google_health_days(pdir).items():
+            day.setdefault(d, {}).update(v)
+        api = "google_health_v4" if list(pdir.glob("gh_*.json")) else "fitbit_legacy"
         for d, v in day.items():
-            rows.append({"pid": pid, "study_day": d, **v})
+            rows.append({"pid": pdir.name, "study_day": d, "wearable_api": api, **v})
     df = pd.DataFrame(rows)
     if len(df):
         min_h = study()["passive"]["wearable"]["min_wear_hours_valid_day"]
@@ -214,21 +266,58 @@ def donation_youtube(path: Path, pid: str) -> pd.DataFrame:
     return _finish(df)
 
 
+def donation_portal(path: Path, pid: str) -> pd.DataFrame:
+    """Minimised file produced in the participant's browser by docs/donate.html (outside the AIO).
+
+    {"schema": "digital-days-donation/1", "source": "chatgpt|claude|tiktok|youtube|instagram",
+     "records": [{"ts": ISO-8601 UTC, "kind": "message|view|like|search", "role": "participant|ai",
+                  "words": int, "text": str|null}]}
+    The browser has already dropped AI reply text and any item the participant chose to remove.
+    """
+    d = json.loads(Path(path).read_text(encoding="utf-8"))
+    recs = pd.DataFrame(d.get("records", []))
+    if recs.empty:
+        return recs
+    recs["pid"], recs["source"] = pid, d["source"]
+    recs["ts_local"] = to_local(recs.pop("ts"))
+    if d["source"] in ("chatgpt", "claude"):
+        recs["conversation_id"] = recs.get("conversation_id")
+        return _finish(recs[["pid", "source", "role", "words", "text", "conversation_id", "ts_local"]])
+    recs["event"] = recs.get("kind", "view")
+    return _finish(recs[["pid", "source", "event", "ts_local"]])
+
+
 DONATION_PARSERS = {
     "chatgpt": ("conversations.json", donation_chatgpt),
     "claude": ("conversations.json", donation_claude),
     "tiktok": ("user_data*.json", donation_tiktok),
     "youtube": ("**/watch-history.json", donation_youtube),
-    # instagram: parser to be added once the AIO's processed output format is confirmed
+    # instagram: raw-DDP parser to be added once the AIO's processed output format is confirmed;
+    # portal donations (digital_days_donation_instagram.json) are already handled below.
 }
+AI_SOURCES = ("chatgpt", "claude")
 
 
 def donations(raw_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """raw_dir/<pid>/<source>/<file> -> (ai_messages, media_views)."""
+    """raw_dir/<pid>/<source>/<file> -> (ai_messages, media_views).
+
+    Per source, a portal file (digital_days_donation_<source>.json) is used if present,
+    otherwise the raw DDP file. One file per person x source.
+    """
     ai, media = [], []
     for pdir in sorted(Path(raw_dir).glob("*")):
-        for source, (pattern, fn) in DONATION_PARSERS.items():
-            for f in sorted((pdir / source).glob(pattern))[:1]:
-                (ai if source in ("chatgpt", "claude") else media).append(fn(f, pdir.name))
+        sources = set(DONATION_PARSERS) | {"instagram"}
+        for source in sorted(sources):
+            portal = sorted((pdir / source).glob(f"digital_days_donation_{source}*.json"))
+            if portal:
+                df = donation_portal(portal[0], pdir.name)
+            elif source in DONATION_PARSERS:
+                pattern, fn = DONATION_PARSERS[source]
+                files = sorted((pdir / source).glob(pattern))[:1]
+                df = fn(files[0], pdir.name) if files else pd.DataFrame()
+            else:
+                df = pd.DataFrame()
+            if not df.empty:
+                (ai if source in AI_SOURCES else media).append(df)
     cat = lambda xs: pd.concat(xs, ignore_index=True) if xs else pd.DataFrame()
     return cat(ai), cat(media)
