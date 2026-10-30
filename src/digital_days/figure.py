@@ -1,4 +1,4 @@
-"""C1 figure: the fast-clock design on one timeline (greyscale-safe, ~half A4 width).
+"""Study-design figure: the measurement-burst design on one timeline (greyscale-safe, ~half A4 width).
 
 python -m digital_days.figure  -> docs/fig_fast_clock_design.{png,svg}
 """
@@ -76,7 +76,7 @@ def draw(path_stem=None):
     ax.spines["bottom"].set_color(LIGHT)
     ax.set_yticks([])
     ax.text(12, -0.55, "Project month.  Analysis structure: prompts within days within bursts within persons "
-                       "(WP2: burst 1; WP3: bursts 1–4 → follow-up).", color=INK, fontsize=6.6, transform=ax.transData)
+                       "(bursts 1–4, then follow-up).", color=INK, fontsize=6.6, transform=ax.transData)
     fig.tight_layout()
     path_stem.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(f"{path_stem}.png", bbox_inches="tight")

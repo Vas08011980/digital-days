@@ -1,2 +1,2 @@
-"""Digital Days: fast-clock data pipeline for 'Years and moments' (WP2-WP3)."""
+"""Digital Days: a measurement-burst data pipeline (EMA, passive sensing, wearables, data donation)."""
 __version__ = "0.2.0"

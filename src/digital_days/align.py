@@ -3,7 +3,7 @@
 Outputs (data/processed/):
   moments.parquet/csv  one row per scheduled check-in (answered or missed) + passive windows
   days.parquet/csv     one row per person-day: evening report + daily passive, Fitbit, donation aggregates
-  ai_messages.parquet  participant AI-chat text for WP2.2 (secure storage only; never exported)
+  ai_messages.parquet  participant AI-chat text for language-based indicators (secure storage only; never exported)
 """
 from __future__ import annotations
 
@@ -141,7 +141,7 @@ def build(esm, sessions, apps, ios, fitbit, ai, media, bursts):
             for c in cols:
                 if c in day:
                     day.loc[donors, c] = day.loc[donors, c].fillna(0)
-    # within-person lagged predictors used in WP2.1 (e.g., last night's late AI use -> today's mood)
+    # within-person lagged predictors for the daily models (e.g., last night's late AI use -> today's mood)
     day = day.sort_values(keys)
     for col in ("ai_late_msgs", "night_use_min", "sleep_min"):
         if col in day:

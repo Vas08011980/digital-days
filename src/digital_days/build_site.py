@@ -37,7 +37,7 @@ PIPELINE = [
     {"id": "align", "label": "Align (align.py)", "items": ["study day 04:00-03:59", "moments within days within bursts within persons",
                                                            "lag-1 within-person predictors", "donor zero vs missing"]},
     {"id": "qc", "label": "QC (qc.py)", "items": ["compliance", "straight-lining", "Fitbit wear >= 10 h", "passive coverage", "donation receipt"]},
-    {"id": "export", "label": "Analyse", "items": ["Mplus DSEM .dat files (WP2.1)", "secure AI-text table (WP2.2)", "WP3 burst-to-burst"]},
+    {"id": "export", "label": "Analyse", "items": ["Mplus DSEM .dat files (daily within-person models)", "secure AI-text table (language indicators)", "burst-to-burst change"]},
 ]
 
 

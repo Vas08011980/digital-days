@@ -8,7 +8,7 @@ Design decisions (privacy-minimal sensing):
   ON : foreground applications, screen on/off, notification metadata (masked text),
        battery (for data-loss diagnostics), timezone, ESM, webservice upload
   OFF: keyboard, screen text, touch text, calls/messages, location, motion sensors,
-       screenshots, microphone - none is needed to answer Aims 2-3.
+       screenshots, microphone - none is needed for the planned analyses.
   Fitbit is NOT collected through AWARE: AWARE's Fitbit plugin calls the legacy Fitbit Web API,
   which Google switched off on 2 Nov 2026. Fitbit data are pulled server-side from the
   Google Health API (fitbit_client.py) and joined to AWARE data by study code and timestamp.
@@ -147,7 +147,7 @@ def build(researcher: dict | None = None) -> dict:
     return {
         "_id": None,
         "study_info": {
-            "study_title": "Digital Days (Years and moments, WP2)",
+            "study_title": "Digital Days",
             "study_description": (
                 "Four 14-day bursts, six months apart. Three short check-ins a day and one evening report. "
                 "On Android, the app also logs which apps are on screen and when the screen is on; "
