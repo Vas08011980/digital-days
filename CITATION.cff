@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Digital Days: fast-clock data pipeline for Years and moments (WP2-WP3)"
+version: 0.2.0
+date-released: 2026-10-30
+repository-code: "https://github.com/Vas08011980/digital-days"
+authors:
+  - family-names: Stavropoulos
+    given-names: Vasileios
+    affiliation: "RMIT University"
+    orcid: "https://orcid.org/0000-0001-6964-4662"
+keywords: [ecological momentary assessment, passive sensing, AWARE-Light, Fitbit, Google Health API, data donation, young adults, DSEM]

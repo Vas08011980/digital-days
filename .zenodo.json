@@ -1,0 +1,8 @@
+{
+  "title": "Digital Days: fast-clock data pipeline for Years and moments (WP2-WP3)",
+  "upload_type": "software",
+  "description": "Executable protocol for a four-burst study of young adults (18-25): EMA item bank and AWARE-Light configuration, Google Health API (Fitbit) client, data-donation parsers and a client-side donation portal, alignment of all streams on one study-day timeline, QC, Mplus DSEM export, and an end-to-end simulation that recovers a planted within-person effect. Contains no participant data.",
+  "creators": [{"name": "Stavropoulos, Vasileios", "affiliation": "RMIT University", "orcid": "0000-0001-6964-4662"}],
+  "keywords": ["ecological momentary assessment", "passive sensing", "AWARE-Light", "Fitbit", "Google Health API", "data donation", "DSEM"],
+  "version": "0.2.0"
+}
