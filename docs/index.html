@@ -274,7 +274,7 @@ footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
   $("daybar").addEventListener("click", (e) => { const b = e.target.closest(".daybtn"); if (!b) return; day = +b.dataset.d;
     document.querySelectorAll(".daybtn").forEach((x) => x.setAttribute("aria-pressed", x === b)); drawDay(); });
   $("daylegend").innerHTML = `<span><i style="background:var(--accent)"></i>check-in (random, ${esc(D.ema.checkins.window.join("–"))}, ≥${D.ema.checkins.min_gap_minutes} min apart)</span>
-    <span><i style="background:var(--ink)"></i>evening report (${esc(D.ema.evening.time)}; AWARE fires on the hour)</span>
+    <span><i style="background:var(--ink)"></i>evening report (${esc(D.ema.evening.time)})</span>
     <span><i style="background:var(--muted)"></i>screen-on sessions (Android)</span><span><i style="background:var(--ok)"></i>Fitbit</span>`;
 
   // ---------------- bursts
