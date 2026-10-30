@@ -35,7 +35,7 @@ def test_aware_config_is_importable_shape():
 def test_equivalence_forms_have_three_items():
     items = all_items()
     for inst in ("MOOD_M", "LONE_M", "STRESS_M", "LS_D", "SE_D", "PRES_D", "FLOW_D", "SREP_D"):
-        assert (items.instrument == inst).sum() >= 3, f"{inst}: WP3 invariance testing needs >= 3 items"
+        assert (items.instrument == inst).sum() >= 3, f"{inst}: invariance testing across bursts needs >= 3 items"
 
 
 def test_prompt_counts(processed):
